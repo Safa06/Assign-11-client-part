@@ -304,6 +304,21 @@ const Navbar = () => {
               >
                 Dashboard
               </Link>
+
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <div className="w-9 border-2 border-gray-300 rounded-full">
+                  <img
+                    src={
+                      user.photoURL ||
+                      "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    }
+                  />
+                </div>
+              </div>
               <div
                 onClick={logOut}
                 className="px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer"
