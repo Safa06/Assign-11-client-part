@@ -169,7 +169,7 @@ const Navbar = () => {
     //   </div>
     // </nav>
 
-    <div className="navbar bg-base-100 border-b-2 border-green-800 shadow-sm">
+    <div className="navbar bg-base-100 shadow">
       <div className="navbar-start p-2">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost md:hidden">
@@ -222,7 +222,8 @@ const Navbar = () => {
                 height="50"
                 className="rounded-full hidden lg:block"
               />
-              <Link to="/" className="text-md text-green-800 "><span className="text-red-800">Hero</span> Apparels
+              <Link to="/" className="text-md text-green-800 ">
+                <span className="text-red-800">Hero</span> Apparels
               </Link>
             </div>
           </Link>
@@ -269,14 +270,15 @@ const Navbar = () => {
             <div>
               <Link
                 to="/login"
-                className="text-green-800 font-bold hover:text-red-800 mr-3"
+                className="bg-green-100 px-4 p-3 rounded-xl text-green-800 font-bold hover:text-red-800 
+                border-2 hover:border-red-800 mr-3"
               >
                 Login
               </Link>
 
               <Link
                 to="/register"
-                className="text-green-800 font-bold hover:text-red-800"
+                className="bg-green-100 px-4 p-3 rounded-xl text-green-800 font-bold border-2 hover:border-red-800 hover:text-red-800"
               >
                 Register
               </Link>
@@ -290,7 +292,7 @@ const Navbar = () => {
           <>
             <div className="flex justify-between items-center gap-3">
               <Link to="/" className="text-black hover:text-blue-600">
-               Home
+                Home
               </Link>
 
               <Link to="/all-products" className="hover:text-blue-600">
