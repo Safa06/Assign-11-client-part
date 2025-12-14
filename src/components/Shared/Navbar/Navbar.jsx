@@ -270,15 +270,16 @@ const Navbar = () => {
             <div>
               <Link
                 to="/login"
-                className="bg-green-100 px-4 p-3 rounded-xl text-green-800 font-bold hover:text-red-800 
-                border-2 hover:border-red-800 mr-3"
+                className="px-6 py-3 bg-green-800 rounded-xl text-white font-bold border-2 hover:border-red-800 hover:text-red-800
+              hover:bg-white mr-3"
               >
                 Login
               </Link>
 
               <Link
                 to="/register"
-                className="bg-green-100 px-4 p-3 rounded-xl text-green-800 font-bold border-2 hover:border-red-800 hover:text-red-800"
+                className="px-6 py-3 bg-green-800 rounded-xl text-white font-bold border-2 hover:border-red-800 hover:text-red-800
+              hover:bg-white"
               >
                 Register
               </Link>
