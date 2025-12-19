@@ -32,7 +32,7 @@ const Home = () => {
   
   useEffect(() => {
     axios
-      .get("http://localhost:3000/products/home")
+      .get("http://localhost:5000/products")
       .then((res) => setProducts(res.data));
   }, []);
 
@@ -99,45 +99,45 @@ const Home = () => {
         </div>
       </section>
 
+      
+
+      
       {/*OUR PRODUCTS*/}
-      <section className="max-w-7xl mx-auto px-6 mt-10">
-        <h2 className="text-4xl font-bold text-center mb-12 text-green-800">
+      <section className="px-4 py-10">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">
           Our Products
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
-            <motion.div
+            <div
               key={product._id}
-              whileHover={{ scale: 1.03 }}
-              className="border rounded-lg overflow-hidden shadow hover:shadow-lg transition"
+              className="card bg-base-100 shadow-md hover:shadow-xl transition"
             >
-              <img src={product.image} className="h-56 w-full object-cover" />
+              <img
+                src={product.image}
+                className="h-48 w-full object-cover"
+                alt={product.title}
+              />
 
-              <div className="p-5 flex flex-col h-full">
-                <h3 className="text-xl font-semibold">{product.title}</h3>
-
-                <p className="text-gray-600 mt-2 flex-1 line-clamp-2">
-                  {product.description}
-                </p>
-
-                <p className="mt-4 font-bold text-indigo-600">
-                  ${product.price}
-                </p>
+              <div className="card-body p-4">
+                <h3 className="font-semibold text-lg">{product.category}</h3>
+                <p className="text-sm opacity-80">{product.description}</p>
+                <p className="font-bold mt-2">Tk {product.price}</p>
 
                 <Link
                   to={`/products/${product._id}`}
-                  className="mt-5 block text-center px-4 py-2 bg-indigo-600 text-white rounded
-                             border border-transparent hover:border-indigo-600 hover:bg-white hover:text-indigo-600
-                             transition-all duration-300"
+                  className="btn btn-outline btn-sm mt-2 w-full"
                 >
                   View Details
                 </Link>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </section>
+
+
 
       {/*HOW IT WORKS*/}
       <section className="bg-gray-50 py-20">
@@ -163,8 +163,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      
 
       {/*CUSTOMER FEEDBACK CAROUSEL*/}
       <p className="font-bold text-4xl text-green-800 text-center mb-6">
@@ -231,8 +229,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-      
 
       {/*EXTRA SECTION 1*/}
       <section className="text-green-800 py-10 text-center">

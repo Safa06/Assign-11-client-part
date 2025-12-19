@@ -1,8 +1,8 @@
 import Home from "../pages/Home/Home";
 import ErrorPage from "../pages/ErrorPage";
-//import Login from "../pages/Login/Login";
-//import SignUp from "../pages/SignUp/SignUp";
-//import PlantDetails from "../pages/PlantDetails/PlantDetails";
+import Login from "../pages/Login/Login";
+import SignUp from "../pages/SignUp/SignUp";
+import ProductDetails from "../pages/ProductDetails/ProductDetails"
 import PrivateRoute from "./PrivateRoute";
 //import DashboardLayout from "../layouts/DashboardLayout";
 //import AddPlant from "../pages/Dashboard/Seller/AddPlant";
@@ -12,8 +12,10 @@ import PrivateRoute from "./PrivateRoute";
 import MainLayout from "../layouts/MainLayout";
 //import MyInventory from "../pages/Dashboard/Seller/MyInventory";
 //import ManageOrders from "../pages/Dashboard/Seller/ManageOrders";
-//import MyOrders from "../pages/Dashboard/Customer/MyOrders";
+import MyOrders from "../pages/Dashboard/Customer/MyOrders";
+
 import { createBrowserRouter } from "react-router";
+import AllProducts from "../components/Home/AllProductsPage";
 //import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 //import SellerRequests from "../pages/Dashboard/Admin/SellerRequests";
 //import SellerRoute from "./SellerRoute";
@@ -29,18 +31,30 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-  //     {
-  //       path: "/plant/:id",
-  //       element: <PlantDetails />,
-  //     },
+      {
+        path: "/products/:id",
+        element: <PrivateRoute>
+          <ProductDetails></ProductDetails>
+        </PrivateRoute>
+ ,
+      },
   //     {
   //       path: "/payment-success",
   //       element: <PaymentSuccess />,
   //     },
     ],
-  // },
-  // { path: "/login", element: <Login /> },
-  // { path: "/signup", element: <SignUp /> },
+   },
+   { path: "/login", element: <Login /> },
+   { path: "/signup", element: <SignUp /> },
+  { path: "/all-products", element: <AllProducts></AllProducts> },
+  {
+    path: "/dashboard/my-orders",
+    element: (
+      <PrivateRoute>
+        <MyOrders></MyOrders>
+      </PrivateRoute>
+    )
+   }
   // {
   //   path: "/dashboard",
   //   element: (
@@ -124,5 +138,5 @@ export const router = createBrowserRouter([
       //   ),
       // },
     // ],
-  },
+  // },
 ]);

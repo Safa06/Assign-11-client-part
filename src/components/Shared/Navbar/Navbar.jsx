@@ -277,11 +277,11 @@ const Navbar = () => {
               </Link>
 
               <Link
-                to="/register"
+                to="/signup"
                 className="px-6 py-3 bg-green-800 rounded-xl text-white font-bold border-2 hover:border-red-800 hover:text-red-800
               hover:bg-white"
               >
-                Register
+                SignUp
               </Link>
             </div>
           </div>
