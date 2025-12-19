@@ -16,7 +16,8 @@ import MyOrders from "../pages/Dashboard/Customer/MyOrders";
 
 import { createBrowserRouter } from "react-router";
 import AllProducts from "../components/Home/AllProductsPage";
-//import PaymentSuccess from "../pages/Payment/PaymentSuccess";
+import BookingForm from "../pages/BookingForm/BookingForm";
+import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 //import SellerRequests from "../pages/Dashboard/Admin/SellerRequests";
 //import SellerRoute from "./SellerRoute";
 //import AdminRoute from "./AdminRoute";
@@ -38,10 +39,10 @@ export const router = createBrowserRouter([
         </PrivateRoute>
  ,
       },
-  //     {
-  //       path: "/payment-success",
-  //       element: <PaymentSuccess />,
-  //     },
+      {
+        path: "/payment-success",
+        element: <PaymentSuccess />,
+      },
     ],
    },
    { path: "/login", element: <Login /> },
@@ -52,6 +53,14 @@ export const router = createBrowserRouter([
     element: (
       <PrivateRoute>
         <MyOrders></MyOrders>
+      </PrivateRoute>
+    )
+   },
+  {
+    path: "/booking/:id",
+    element: (
+      <PrivateRoute>
+        <BookingForm></BookingForm>
       </PrivateRoute>
     )
    }

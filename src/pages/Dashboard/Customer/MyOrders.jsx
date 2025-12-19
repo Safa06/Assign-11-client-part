@@ -88,111 +88,84 @@
 // export default MyOrders
 
 
-import { useEffect, useState } from "react";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import useAuth from "../../hooks/useAuth";
-import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
-import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 
-const MyOrders = () => {
-  const axiosSecure = useAxiosSecure();
-  const { user } = useAuth();
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+ import { useEffect, useState } from "react";
+ import useAuth from "../../../hooks/useAuth";
+ import useAxiosSecure from "../../../hooks/useAxiosSecure";
+ import { useNavigate } from "react-router";
+ import Swal from "sweetalert2";
 
-  useEffect(() => {
-    if (user?.email) {
-      axiosSecure.get(`/orders?email=${user.email}`).then((res) => {
-        setOrders(res.data);
-        setLoading(false);
-      });
-    }
-  }, [axiosSecure, user]);
+ const MyOrders = () => {
+   const { user } = useAuth();
+   const axiosSecure = useAxiosSecure();
+   const navigate = useNavigate();
 
-  const handleCancel = async (id) => {
-    const confirm = await Swal.fire({
-      title: "Cancel Order?",
-      text: "This action cannot be undone",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, cancel",
-    });
+   const [orders, setOrders] = useState([]);
 
-    if (confirm.isConfirmed) {
-      await axiosSecure.delete(`/orders/${id}`);
-      setOrders(orders.filter((order) => order._id !== id));
-      Swal.fire("Cancelled!", "Order has been cancelled", "success");
-    }
-  };
+   const fetchOrders = async () => {
+     const res = await axiosSecure.get(`/orders?email=${user.email}`);
+     setOrders(res.data);
+   };
 
-    if (loading) return <div className="text-center mt-20">
-      <LoadingSpinner></LoadingSpinner>
-  </div>;
+   useEffect(() => {
+     fetchOrders();
+   }, []);
 
-  return (
-    <div className="px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6">My Orders</h2>
+   const handleDelete = async (id) => {
+     const confirm = await Swal.fire({
+       title: "Are you sure?",
+       text: "You won't be able to revert this!",
+       icon: "warning",
+       showCancelButton: true,
+       confirmButtonText: "Yes, delete it!",
+     });
+     if (confirm.isConfirmed) {
+       await axiosSecure.delete(`/orders/${id}`);
+       Swal.fire("Deleted!", "Order has been deleted.", "success");
+       fetchOrders();
+     }
+   };
 
-      <div className="overflow-x-auto">
-        <table className="table w-full">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Quantity</th>
-              <th>Total Price</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+   return (
+     <div className="max-w-6xl mx-auto px-4 py-6">
+       <h2 className="text-2xl font-bold mb-4">My Orders</h2>
+       <table className="table-auto w-full border-collapse border border-gray-300">
+         <thead>
+           <tr>
+             <th className="border px-2 py-1">Product</th>
+             <th className="border px-2 py-1">Quantity</th>
+             <th className="border px-2 py-1">Total Price</th>
+             <th className="border px-2 py-1">Status</th>
+             <th className="border px-2 py-1">Actions</th>
+           </tr>
+         </thead>
+         <tbody>
+           {orders.map((o) => (
+             <tr key={o._id}>
+               <td className="border px-2 py-1">{o.productTitle}</td>
+               <td className="border px-2 py-1">{o.quantity}</td>
+               <td className="border px-2 py-1">${o.totalPrice}</td>
+               <td className="border px-2 py-1">{o.status}</td>
+               <td className="border px-2 py-1 space-x-2">
+                 <button
+                   className="btn btn-sm btn-info"
+                   onClick={() => navigate(`/products/${o.productId}`)}
+                 >
+                   View
+                 </button>
+                 <button
+                   className="btn btn-sm btn-error"
+                   onClick={() => handleDelete(o._id)}
+                 >
+                   Delete
+                 </button>
+               </td>
+             </tr>
+           ))}
+         </tbody>
+       </table>
+     </div>
+   );
+ };
 
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order._id}>
-                <td>{order.productTitle}</td>
-                <td>{order.quantity}</td>
-                <td>${order.totalPrice}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      order.status === "Pending"
-                        ? "badge-warning"
-                        : "badge-success"
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-                </td>
-
-                <td className="space-x-2">
-                  <Link
-                    to={`/dashboard/track-order/${order._id}`}
-                    className="btn btn-xs btn-outline"
-                  >
-                    View
-                  </Link>
-
-                  {order.status === "Pending" && (
-                    <button
-                      onClick={() => handleCancel(order._id)}
-                      className="btn btn-xs btn-error"
-                    >
-                      Cancel
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {orders.length === 0 && (
-          <p className="text-center mt-10">No orders found.</p>
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default MyOrders;
-
+ export default MyOrders;

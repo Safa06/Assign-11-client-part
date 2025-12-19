@@ -54,7 +54,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router";
 
 const ProductCard = ({ product }) => {
-  const { _id, title, image, price, category, quantity } = product;
+  const { _id, title, image, price, category, quantity, payment } = product;
 
   return (
     <motion.div
@@ -72,6 +72,7 @@ const ProductCard = ({ product }) => {
 
       <p className="mt-1">Price: ${price}</p>
       <p className="text-sm text-green-800 italic">Available: {quantity}</p>
+      <p className="text-sm">Payment method: {payment}</p>
 
       <Link
         to={`/products/${product._id}`}
