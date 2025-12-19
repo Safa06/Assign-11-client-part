@@ -1,72 +1,72 @@
-// import { useQuery } from '@tanstack/react-query'
-// import UserDataRow from '../../../components/Dashboard/TableRows/UserDataRow'
-// import useAuth from '../../../hooks/useAuth'
-// import useAxiosSecure from '../../../hooks/useAxiosSecure'
-// import LoadingSpinner from '../../../components/Shared/LoadingSpinner'
+import { useEffect, useState } from "react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
-// const ManageUsers = () => {
-//   const { user } = useAuth()
-//   const axiosSecure = useAxiosSecure()
-//   const {
-//     data: users = [],
-//     isLoading,
-//     refetch,
-//   } = useQuery({
-//     queryKey: ['users', user?.email],
-//     queryFn: async () => {
-//       const result = await axiosSecure(`/users`)
-//       return result.data
-//     },
-//   })
-//   console.log(users)
+const ManageUsers = () => {
+  const [users, setUsers] = useState([]);
+  const axiosSecure = useAxiosSecure();
 
-//   if (isLoading) return <LoadingSpinner />
-//   return (
-//     <>
-//       <div className='container mx-auto px-4 sm:px-8'>
-//         <div className='py-8'>
-//           <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto'>
-//             <div className='inline-block min-w-full shadow rounded-lg overflow-hidden'>
-//               <table className='min-w-full leading-normal'>
-//                 <thead>
-//                   <tr>
-//                     <th
-//                       scope='col'
-//                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-//                     >
-//                       Email
-//                     </th>
-//                     <th
-//                       scope='col'
-//                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-//                     >
-//                       Role
-//                     </th>
+  useEffect(() => {
+    axiosSecure.get("/users").then((res) => {
+      setUsers(res.data);
+    });
+  }, []);
 
-//                     <th
-//                       scope='col'
-//                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-//                     >
-//                       Action
-//                     </th>
-//                   </tr>
-//                 </thead>
-//                 <tbody>
-//                   {users.map(user => (
-//                     <UserDataRow
-//                       refetch={refetch}
-//                       key={user?._id}
-//                       user={user}
-//                     />
-//                   ))}
-//                 </tbody>
-//               </table>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   )
-// }
+  // Update user role (admin / suspend)
+  const handleRoleChange = (userId, newRole) => {
+    Swal.fire({
+      title: `Are you sure to set role as ${newRole}?`,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.patch(`/users/${userId}`, { role: newRole }).then(() => {
+          Swal.fire("Updated!", "", "success");
+          // refresh users
+          axiosSecure.get("/users").then((res) => setUsers(res.data));
+        });
+      }
+    });
+  };
 
-// export default ManageUsers
+  return (
+    <div className="p-6">
+      <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
+      <table className="table-auto border w-full">
+        <thead>
+          <tr className="bg-gray-200">
+            <th className="border px-4 py-2">Name</th>
+            <th className="border px-4 py-2">Email</th>
+            <th className="border px-4 py-2">Role</th>
+            <th className="border px-4 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <tr key={user._id}>
+              <td className="border px-4 py-2">{user.name}</td>
+              <td className="border px-4 py-2">{user.email}</td>
+              <td className="border px-4 py-2">{user.role}</td>
+              <td className="border px-4 py-2">
+                <button
+                  className="btn btn-sm btn-green mr-2"
+                  onClick={() => handleRoleChange(user._id, "admin")}
+                >
+                  Make Admin
+                </button>
+                <button
+                  className="btn btn-sm btn-red"
+                  onClick={() => handleRoleChange(user._id, "suspended")}
+                >
+                  Suspend
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default ManageUsers;
