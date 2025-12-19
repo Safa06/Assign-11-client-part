@@ -4,7 +4,7 @@ import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
 import ProductDetails from "../pages/ProductDetails/ProductDetails"
 import PrivateRoute from "./PrivateRoute";
-//import DashboardLayout from "../layouts/DashboardLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
 //import AddPlant from "../pages/Dashboard/Seller/AddPlant";
 //import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 //import Profile from "../pages/Dashboard/Common/Profile";
@@ -13,14 +13,13 @@ import MainLayout from "../layouts/MainLayout";
 //import MyInventory from "../pages/Dashboard/Seller/MyInventory";
 //import ManageOrders from "../pages/Dashboard/Seller/ManageOrders";
 import MyOrders from "../pages/Dashboard/Customer/MyOrders";
-
 import { createBrowserRouter } from "react-router";
 import AllProducts from "../components/Home/AllProductsPage";
 import BookingForm from "../pages/BookingForm/BookingForm";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 //import SellerRequests from "../pages/Dashboard/Admin/SellerRequests";
 //import SellerRoute from "./SellerRoute";
-//import AdminRoute from "./AdminRoute";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -37,16 +36,16 @@ export const router = createBrowserRouter([
         element: <PrivateRoute>
           <ProductDetails></ProductDetails>
         </PrivateRoute>
- ,
+        ,
       },
       {
-        path: "/payment-success",
+        path: "/payment/:id",
         element: <PaymentSuccess />,
       },
     ],
-   },
-   { path: "/login", element: <Login /> },
-   { path: "/signup", element: <SignUp /> },
+  },
+  { path: "/login", element: <Login /> },
+  { path: "/signup", element: <SignUp /> },
   { path: "/all-products", element: <AllProducts></AllProducts> },
   {
     path: "/dashboard/my-orders",
@@ -55,7 +54,7 @@ export const router = createBrowserRouter([
         <MyOrders></MyOrders>
       </PrivateRoute>
     )
-   },
+  },
   {
     path: "/booking/:id",
     element: (
@@ -63,15 +62,25 @@ export const router = createBrowserRouter([
         <BookingForm></BookingForm>
       </PrivateRoute>
     )
-   }
-  // {
-  //   path: "/dashboard",
-  //   element: (
-  //     <PrivateRoute>
-  //       <DashboardLayout />
-  //     </PrivateRoute>
-  //   ),
-    // children: [
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "manage-users",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ManageUsers />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
     //   {
     //     index: true,
     //     element: (
@@ -97,16 +106,6 @@ export const router = createBrowserRouter([
       //       <SellerRoute>
       //         <MyInventory />
       //       </SellerRoute>
-      //     </PrivateRoute>
-      //   ),
-      // },
-      // {
-      //   path: "manage-users",
-      //   element: (
-      //     <PrivateRoute>
-      //       <AdminRoute>
-      //         <ManageUsers />
-      //       </AdminRoute>
       //     </PrivateRoute>
       //   ),
       // },
@@ -146,6 +145,6 @@ export const router = createBrowserRouter([
       //     </PrivateRoute>
       //   ),
       // },
-    // ],
-  // },
+     ],
+   }
 ]);
