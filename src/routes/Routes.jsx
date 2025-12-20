@@ -6,6 +6,7 @@ import ProductDetails from "../pages/ProductDetails/ProductDetails"
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
 import AdminAllProducts from "../pages/Dashboard/Admin/AdminAllProducts";
+import AdminAllOrders from "../pages/Dashboard/Admin/AdminAllOrders";
 import MainLayout from "../layouts/MainLayout";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import MyOrders from "../pages/Dashboard/Customer/MyOrders";
@@ -79,10 +80,22 @@ export const router = createBrowserRouter([
       {
         path: "all-products",
         element: (
+          <PrivateRoute>
           <AdminRoute>
             <AdminAllProducts></AdminAllProducts>
-          </AdminRoute>
+            </AdminRoute>
+            </PrivateRoute>
         ),
+      },
+      {
+        path: "all-orders",
+        element: (
+            <PrivateRoute>
+            <AdminRoute>
+              <AdminAllOrders />
+            </AdminRoute>
+            </PrivateRoute>
+            ),
       },
       {
         path: "my-orders",
