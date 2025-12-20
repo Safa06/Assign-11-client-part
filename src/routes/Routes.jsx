@@ -14,6 +14,7 @@ import AllProducts from "../components/Home/AllProductsPage";
 import BookingForm from "../pages/BookingForm/BookingForm";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import AdminRoute from "./AdminRoute";
+import UpdateProduct from "../pages/Dashboard/Admin/UpdateProduct";
 //import AddPlant from "../pages/Dashboard/Seller/AddPlant";
 
 //import Profile from "../pages/Dashboard/Common/Profile";
@@ -78,9 +79,9 @@ export const router = createBrowserRouter([
       {
         path: "all-products",
         element: (
-             <AdminRoute>
-              <AdminAllProducts></AdminAllProducts>
-             </AdminRoute>
+          <AdminRoute>
+            <AdminAllProducts></AdminAllProducts>
+          </AdminRoute>
         ),
       },
       {
@@ -91,6 +92,17 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "update-product/:id",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <UpdateProduct />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+
       //   {
       //     index: true,
       //     element: (
