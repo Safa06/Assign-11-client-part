@@ -1,171 +1,108 @@
-// import { useQuery } from '@tanstack/react-query'
-// import CustomerOrderDataRow from '../../../components/Dashboard/TableRows/CustomerOrderDataRow'
-// import useAuth from '../../../hooks/useAuth'
-// import LoadingSpinner from '../../../components/Shared/LoadingSpinner'
-// import useAxiosSecure from '../../../hooks/useAxiosSecure'
+// pages/Dashboard/Customer/MyOrders.jsx
+import { useEffect, useState } from "react";
+import useAuth from "../../../hooks/useAuth";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 
-// const MyOrders = () => {
-//   const { user } = useAuth()
-//   const axiosSecure = useAxiosSecure()
-//   const { data: orders = [], isLoading } = useQuery({
-//     queryKey: ['orders', user?.email],
-//     queryFn: async () => {
-//       const result = await axiosSecure(`/my-orders`)
-//       return result.data
-//     },
-//   })
-//   console.log(orders)
+const MyOrders = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-//   if (isLoading) return <LoadingSpinner />
-//   return (
-//     <>
-//       <div className='container mx-auto px-4 sm:px-8'>
-//         <div className='py-8'>
-//           <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto'>
-//             <div className='inline-block min-w-full shadow rounded-lg overflow-hidden'>
-//               <table className='min-w-full leading-normal'>
-//                 <thead>
-//                   <tr>
-//                     <th
-//                       scope='col'
-//                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-//                     >
-//                       Image
-//                     </th>
-//                     <th
-//                       scope='col'
-//                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-//                     >
-//                       Name
-//                     </th>
-//                     <th
-//                       scope='col'
-//                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-//                     >
-//                       Category
-//                     </th>
-//                     <th
-//                       scope='col'
-//                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-//                     >
-//                       Price
-//                     </th>
-//                     <th
-//                       scope='col'
-//                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-//                     >
-//                       Quantity
-//                     </th>
-//                     <th
-//                       scope='col'
-//                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-//                     >
-//                       Status
-//                     </th>
+  // Fetch orders for logged-in user
+  const fetchOrders = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/my-orders?email=${user.email}`
+      );
+      setOrders(res.data);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+    }
+  };
 
-//                     <th
-//                       scope='col'
-//                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-//                     >
-//                       Action
-//                     </th>
-//                   </tr>
-//                 </thead>
-//                 <tbody>
-//                   {orders.map(order => (
-//                     <CustomerOrderDataRow key={order._id} order={order} />
-//                   ))}
-//                 </tbody>
-//               </table>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   )
-// }
+  useEffect(() => {
+    if (user?.email) fetchOrders();
+  }, [user]);
 
-// export default MyOrders
+  // Delete an order
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete this order?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`http://localhost:5000/orders/${id}`);
+          Swal.fire("Deleted!", "Your order has been deleted.", "success");
+          fetchOrders();
+        } catch (err) {
+          console.error(err);
+          Swal.fire("Error!", "Failed to delete order.", "error");
+        }
+      }
+    });
+  };
 
+  if (loading) return <div className="text-center mt-20"><LoadingSpinner></LoadingSpinner></div>;
 
+  return (
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <h2 className="text-2xl font-bold mb-6">My Orders</h2>
+      <table className="w-full table-auto border-collapse border border-gray-300">
+        <thead>
+          <tr className="bg-gray-200">
+            <th className="border px-4 py-2">Product</th>
+            <th className="border px-4 py-2">Quantity</th>
+            <th className="border px-4 py-2">Total Price</th>
+            <th className="border px-4 py-2">Status</th>
+            <th className="border px-4 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => (
+            <tr key={order._id}>
+              <td className="border px-4 py-2">{order.productTitle}</td>
+              <td className="border px-4 py-2">{order.quantity}</td>
+              <td className="border px-4 py-2">${order.totalPrice}</td>
+              <td className="border px-4 py-2">{order.status}</td>
+              <td className="border px-4 py-2 flex gap-2">
+                <button
+                  className="bg-blue-500 text-white px-3 py-1 rounded"
+                  onClick={() => navigate(`orders/details/${order._id}`)}
+                >
+                  View
+                </button>
+                {order.status === "Pending" && (
+                  <button
+                    className="bg-red-500 text-white px-3 py-1 rounded"
+                    onClick={() => handleDelete(order._id)}
+                  >
+                    Delete
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+          {orders.length === 0 && (
+            <tr>
+              <td colSpan="5" className="text-center py-4">
+                No orders placed yet.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
- import { useEffect, useState } from "react";
- import useAuth from "../../../hooks/useAuth";
- import useAxiosSecure from "../../../hooks/useAxiosSecure";
- import { useNavigate } from "react-router";
- import Swal from "sweetalert2";
-
- const MyOrders = () => {
-   const { user } = useAuth();
-   const axiosSecure = useAxiosSecure();
-   const navigate = useNavigate();
-
-   const [orders, setOrders] = useState([]);
-
-   const fetchOrders = async () => {
-     const res = await axiosSecure.get(`/orders?email=${user.email}`);
-     setOrders(res.data);
-   };
-
-   useEffect(() => {
-     fetchOrders();
-   }, []);
-
-   const handleDelete = async (id) => {
-     const confirm = await Swal.fire({
-       title: "Are you sure?",
-       text: "You won't be able to revert this!",
-       icon: "warning",
-       showCancelButton: true,
-       confirmButtonText: "Yes, delete it!",
-     });
-     if (confirm.isConfirmed) {
-       await axiosSecure.delete(`/orders/${id}`);
-       Swal.fire("Deleted!", "Order has been deleted.", "success");
-       fetchOrders();
-     }
-   };
-
-   return (
-     <div className="max-w-6xl mx-auto px-4 py-6">
-       <h2 className="text-2xl font-bold mb-4">My Orders</h2>
-       <table className="table-auto w-full border-collapse border border-gray-300">
-         <thead>
-           <tr>
-             <th className="border px-2 py-1">Product</th>
-             <th className="border px-2 py-1">Quantity</th>
-             <th className="border px-2 py-1">Total Price</th>
-             <th className="border px-2 py-1">Status</th>
-             <th className="border px-2 py-1">Actions</th>
-           </tr>
-         </thead>
-         <tbody>
-           {orders.map((o) => (
-             <tr key={o._id}>
-               <td className="border px-2 py-1">{o.productTitle}</td>
-               <td className="border px-2 py-1">{o.quantity}</td>
-               <td className="border px-2 py-1">${o.totalPrice}</td>
-               <td className="border px-2 py-1">{o.status}</td>
-               <td className="border px-2 py-1 space-x-2">
-                 <button
-                   className="btn btn-sm btn-info"
-                   onClick={() => navigate(`/products/${o.productId}`)}
-                 >
-                   View
-                 </button>
-                 <button
-                   className="btn btn-sm btn-error"
-                   onClick={() => handleDelete(o._id)}
-                 >
-                   Delete
-                 </button>
-               </td>
-             </tr>
-           ))}
-         </tbody>
-       </table>
-     </div>
-   );
- };
-
- export default MyOrders;
+export default MyOrders;

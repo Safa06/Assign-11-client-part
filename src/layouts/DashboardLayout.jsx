@@ -32,7 +32,7 @@ const DashboardLayout = () => {
           <nav className="space-y-3 flex flex-col gap-4">
             <NavLink to="/dashboard/manage-users">Manage Users</NavLink>
             <NavLink to="/dashboard/all-products">All Products</NavLink>
-            <NavLink to="/dashboard/my-orders">All Orders</NavLink>
+            <NavLink to="/dashboard/all-orders">All Orders</NavLink>
           </nav>
       </aside>
 

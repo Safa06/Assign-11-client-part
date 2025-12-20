@@ -16,6 +16,9 @@ import BookingForm from "../pages/BookingForm/BookingForm";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import AdminRoute from "./AdminRoute";
 import UpdateProduct from "../pages/Dashboard/Admin/UpdateProduct";
+import OrderDetails from "../pages/Dashboard/Admin/OrderDetails";
+
+
 //import AddPlant from "../pages/Dashboard/Seller/AddPlant";
 
 //import Profile from "../pages/Dashboard/Common/Profile";
@@ -81,21 +84,21 @@ export const router = createBrowserRouter([
         path: "all-products",
         element: (
           <PrivateRoute>
-          <AdminRoute>
-            <AdminAllProducts></AdminAllProducts>
+            <AdminRoute>
+              <AdminAllProducts></AdminAllProducts>
             </AdminRoute>
-            </PrivateRoute>
+          </PrivateRoute>
         ),
       },
       {
         path: "all-orders",
         element: (
-            <PrivateRoute>
+          <PrivateRoute>
             <AdminRoute>
               <AdminAllOrders />
             </AdminRoute>
-            </PrivateRoute>
-            ),
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-orders",
@@ -115,72 +118,113 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "orders/details/:id",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <OrderDetails />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+    
 
-      //   {
-      //     index: true,
-      //     element: (
-      //       <PrivateRoute>
-      //         <Statistics />
-      //       </PrivateRoute>
-      //     ),
-      //   },
-      // {
-      //   path: "add-plant",
-      //   element: (
-      //     <PrivateRoute>
-      //       <SellerRoute>
-      //         <AddPlant />
-      //       </SellerRoute>
-      //     </PrivateRoute>
-      //   ),
-      // },
-      // {
-      //   path: "my-inventory",
-      //   element: (
-      //     <PrivateRoute>
-      //       <SellerRoute>
-      //         <MyInventory />
-      //       </SellerRoute>
-      //     </PrivateRoute>
-      //   ),
-      // },
-      // {
-      //   path: "seller-requests",
-      //   element: (
-      //     <PrivateRoute>
-      //       <AdminRoute>
-      //         <SellerRequests />
-      //       </AdminRoute>
-      //     </PrivateRoute>
-      //   ),
-      // },
-      // {
-      //   path: "profile",
-      //   element: (
-      //     <PrivateRoute>
-      //       <Profile />
-      //     </PrivateRoute>
-      //   ),
-      // },
-      // {
-      //   path: "my-orders",
-      //   element: (
-      //     <PrivateRoute>
-      //       <MyOrders />
-      //     </PrivateRoute>
-      //   ),
-      // },
-      // {
-      //   path: "manage-orders",
-      //   element: (
-      //     <PrivateRoute>
-      //       <SellerRoute>
-      //         <ManageOrders />
-      //       </SellerRoute>
-      //     </PrivateRoute>
-      //   ),
-      // },
-    ],
+    // manager part
+
+      {
+        path: "add-product",
+        element: (
+          <ManagerRoute>
+            <AddProduct />
+          </ManagerRoute>)
+      },
+      {
+        path: "manage-products",
+        element: (<ManagerRoute>
+          <ManageProducts />
+        </ManagerRoute>)
+      },
+      {
+        path: "pending-orders",
+        element: (<ManagerRoute>
+          <PendingOrders />
+        </ManagerRoute>)
+      },
+      {
+        path: "approved-orders",
+        element: (<ManagerRoute>
+          <ApprovedOrders />
+        </ManagerRoute>)
+      },
+  ]
+}
+
+
+    //   {
+    //     index: true,
+    //     element: (
+    //       <PrivateRoute>
+    //         <Statistics />
+    //       </PrivateRoute>
+    //     ),
+    //   },
+    // {
+    //   path: "add-plant",
+    //   element: (
+    //     <PrivateRoute>
+    //       <SellerRoute>
+    //         <AddPlant />
+    //       </SellerRoute>
+    //     </PrivateRoute>
+    //   ),
+    // },
+    // {
+    //   path: "my-inventory",
+    //   element: (
+    //     <PrivateRoute>
+    //       <SellerRoute>
+    //         <MyInventory />
+    //       </SellerRoute>
+    //     </PrivateRoute>
+    //   ),
+    // },
+    // {
+    //   path: "seller-requests",
+    //   element: (
+    //     <PrivateRoute>
+    //       <AdminRoute>
+    //         <SellerRequests />
+    //       </AdminRoute>
+    //     </PrivateRoute>
+    //   ),
+    // },
+    // {
+    //   path: "profile",
+    //   element: (
+    //     <PrivateRoute>
+    //       <Profile />
+    //     </PrivateRoute>
+    //   ),
+    // },
+    // {
+    //   path: "my-orders",
+    //   element: (
+    //     <PrivateRoute>
+    //       <MyOrders />
+    //     </PrivateRoute>
+    //   ),
+    // },
+    // {
+    //   path: "manage-orders",
+    //   element: (
+    //     <PrivateRoute>
+    //       <SellerRoute>
+    //         <ManageOrders />
+    //       </SellerRoute>
+    //     </PrivateRoute>
+    //   ),
+    // },
   },
   {
     path: "/booking/:id",
