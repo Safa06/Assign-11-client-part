@@ -47,11 +47,13 @@ const OrderDetails = () => {
       <div>
         <h3 className="text-xl font-semibold mb-2">Tracking History</h3>
         <ul className="border p-4 rounded">
-          {order.tracking?.map((t, index) => (
-            <li key={index} className="mb-2">
-              <span className="font-medium">{t.status}</span> –{" "}
-              {new Date(t.date).toLocaleString()}
-            </li>
+          {order.tracking?.map((t, i) => (
+            <div key={i} className="border-l-4 pl-4 mb-3">
+              <p className="font-semibold">{t.status}</p>
+              <p>{t.location}</p>
+              <p>{t.note}</p>
+              <small>{new Date(t.time).toLocaleString()}</small>
+            </div>
           ))}
         </ul>
       </div>

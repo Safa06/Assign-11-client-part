@@ -107,3 +107,37 @@
 // }
 
 // export default Sidebar
+
+
+// components/Sidebar.jsx
+import { Link } from "react-router";
+import useAuth from "../../../hooks/useAuth";
+
+const Sidebar = () => {
+  const { user } = useAuth();
+
+  return (
+    <aside className="w-64 bg-gray-900 text-white p-4">
+      <h2 className="text-xl font-bold mb-6">Dashboard</h2>
+
+      {/* Admin */}
+      {user?.role === "admin" && (
+        <>
+          <Link to="/dashboard/manage-users">Manage Users</Link>
+        </>
+      )}
+
+      {/* Manager */}
+      {user?.role === "manager" && (
+        <>
+          <Link to="/dashboard/add-product">Add Product</Link>
+          <Link to="/dashboard/manage-products">Manage Products</Link>
+          <Link to="/dashboard/pending-orders">Pending Orders</Link>
+          <Link to="/dashboard/approved-orders">Approved Orders</Link>
+        </>
+      )}
+    </aside>
+  );
+};
+
+export default Sidebar;

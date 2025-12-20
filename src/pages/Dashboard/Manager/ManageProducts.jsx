@@ -80,3 +80,98 @@
 // }
 
 // export default ManageOrders
+
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
+import useAuth from "../../../hooks/useAuth";
+
+const ManageProducts = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/manager-products?email=${user.email}`)
+      .then((res) => setProducts(res.data));
+  }, [user.email]);
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Delete product?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`http://localhost:5000/products/${id}`).then(() => {
+          setProducts(products.filter((p) => p._id !== id));
+        });
+      }
+    });
+  };
+
+  const filtered = products.filter(
+    (p) =>
+      p.title.toLowerCase().includes(search.toLowerCase()) ||
+      p.category.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div className="p-6">
+      <h2 className="text-2xl font-bold mb-4">Manage Products</h2>
+
+      <input
+        className="border p-2 mb-4 w-full"
+        placeholder="Search by name or category"
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      <table className="table-auto w-full border">
+        <thead className="bg-gray-200">
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Payment</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {filtered.map((p) => (
+            <tr key={p._id}>
+              <td>
+                <img src={p.images[0]} className="w-16 h-16" />
+              </td>
+              <td>{p.title}</td>
+              <td>{p.price}</td>
+              <td>{p.paymentMode}</td>
+              <td className="space-x-2">
+                <button
+                  className="btn btn-sm btn-info"
+                  onClick={() => navigate(`/dashboard/update-product/${p._id}`)}
+                >
+                  Update
+                </button>
+
+                <button
+                  className="btn btn-sm btn-error"
+                  onClick={() => handleDelete(p._id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default ManageProducts;

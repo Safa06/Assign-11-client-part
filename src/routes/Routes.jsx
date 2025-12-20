@@ -17,7 +17,11 @@ import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import AdminRoute from "./AdminRoute";
 import UpdateProduct from "../pages/Dashboard/Admin/UpdateProduct";
 import OrderDetails from "../pages/Dashboard/Admin/OrderDetails";
-
+import ManagerRoute from "./ManagerRoute";
+import AddProduct from "../pages/Dashboard/Manager/AddProduct"
+import ManageProducts from "../pages/Dashboard/Manager/ManageProducts"
+import PendingOrders from "../pages/Dashboard/Manager/PendingOrders"
+import ApprovedOrders from "../pages/Dashboard/Manager/ApprovedOrders";
 
 //import AddPlant from "../pages/Dashboard/Seller/AddPlant";
 
@@ -128,38 +132,44 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-    
 
-    // manager part
+      // manager part
 
       {
         path: "add-product",
         element: (
-          <ManagerRoute>
-            <AddProduct />
-          </ManagerRoute>)
+          <PrivateRoute>
+            <ManagerRoute>
+              <AddProduct />
+            </ManagerRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "manage-products",
-        element: (<ManagerRoute>
-          <ManageProducts />
-        </ManagerRoute>)
+        element: (
+          <ManagerRoute>
+            <ManageProducts />
+          </ManagerRoute>
+        ),
       },
       {
         path: "pending-orders",
-        element: (<ManagerRoute>
-          <PendingOrders />
-        </ManagerRoute>)
+        element: (
+          <ManagerRoute>
+            <PendingOrders />
+          </ManagerRoute>
+        ),
       },
       {
         path: "approved-orders",
-        element: (<ManagerRoute>
-          <ApprovedOrders />
-        </ManagerRoute>)
+        element: (
+          <ManagerRoute>
+            <ApprovedOrders />
+          </ManagerRoute>
+        ),
       },
-  ]
-}
-
+    ],
 
     //   {
     //     index: true,
