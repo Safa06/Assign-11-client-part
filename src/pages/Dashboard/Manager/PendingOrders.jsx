@@ -1,57 +1,69 @@
-// ManagerPendingOrders.jsx
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const ManagerPendingOrders = () => {
+const PendingOrders = () => {
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
-  // Fetch pending orders created by this manager
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/pending-orders") // backend returns pending orders for manager
-      .then((res) => setOrders(res.data))
-      .catch((err) => console.error(err));
+    fetchPendingOrders();
   }, []);
 
-  const handleApprove = (orderId) => {
+  const fetchPendingOrders = () => {
+    axios
+      .get("http://localhost:5000/pending-orders")
+      .then((res) => setOrders(res.data))
+      .catch(console.error);
+  };
+
+  const handleApprove = (id) => {
     Swal.fire({
-      title: "Approve this order?",
-      icon: "question",
+      title: "Are you sure?",
+      text: "You want to approve this order!",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, Approve",
+      confirmButtonText: "Yes, approve!",
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .patch(`http://localhost:5000/pending-orders/${orderId}`, {
+          .patch(`http://localhost:5000/pending-orders/${id}`, {
             status: "Approved",
           })
           .then(() => {
-            setOrders((prev) => prev.filter((order) => order._id !== orderId));
             Swal.fire("Approved!", "Order has been approved.", "success");
-          });
+            fetchPendingOrders();
+          })
+          .catch(console.error);
       }
     });
   };
 
-  const handleReject = (orderId) => {
+  const handleReject = (id) => {
     Swal.fire({
-      title: "Reject this order?",
+      title: "Are you sure?",
+      text: "You want to reject this order!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, Reject",
+      confirmButtonText: "Yes, reject!",
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .patch(`http://localhost:5000/pending-orders/${orderId}`, {
+          .patch(`http://localhost:5000/pending-orders/${id}`, {
             status: "Rejected",
           })
           .then(() => {
-            setOrders((prev) => prev.filter((order) => order._id !== orderId));
             Swal.fire("Rejected!", "Order has been rejected.", "success");
-          });
+            fetchPendingOrders();
+          })
+          .catch(console.error);
       }
     });
+  };
+
+  const handleView = (orderId) => {
+    navigate(`/dashboard/orders/details/${orderId}`);
   };
 
   return (
@@ -77,11 +89,17 @@ const ManagerPendingOrders = () => {
                 <td className="border px-4 py-2">{order.productTitle}</td>
                 <td className="border px-4 py-2">{order.quantity}</td>
                 <td className="border px-4 py-2">
-                  {new Date(order.createdAt).toLocaleString()}
+                  {new Date(order.createdAt).toLocaleDateString()}
                 </td>
                 <td className="border px-4 py-2 space-x-2">
                   <button
-                    className="bg-green-600 text-white px-2 py-1 rounded"
+                    className="bg-blue-500 text-white px-2 py-1 rounded"
+                    onClick={() => handleView(order._id)}
+                  >
+                    View
+                  </button>
+                  <button
+                    className="bg-green-700 text-white px-2 py-1 rounded"
                     onClick={() => handleApprove(order._id)}
                   >
                     Approve
@@ -95,16 +113,6 @@ const ManagerPendingOrders = () => {
                 </td>
               </tr>
             ))}
-            {orders.length === 0 && (
-              <tr>
-                <td
-                  colSpan={6}
-                  className="border px-4 py-2 text-center text-gray-500"
-                >
-                  No pending orders
-                </td>
-              </tr>
-            )}
           </tbody>
         </table>
       </div>
@@ -112,4 +120,4 @@ const ManagerPendingOrders = () => {
   );
 };
 
-export default ManagerPendingOrders;
+export default PendingOrders;
