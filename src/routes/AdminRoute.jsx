@@ -13,19 +13,39 @@
 // export default AdminRoute;
 
 
-import useAuth from "../hooks/useAuth";
+// import LoadingSpinner from "../components/Shared/LoadingSpinner";
+// import useAuth from "../hooks/useAuth";
+// import { Navigate } from "react-router";
+
+// const AdminRoute = ({ children }) => {
+//   const { user, loading } = useAuth();
+
+//   if (loading) return <p><LoadingSpinner></LoadingSpinner></p>;
+
+//   if (user?.role !== "admin") {
+//     return <Navigate to="/" />;
+//   }
+
+//   return children;
+// };
+
+// export default AdminRoute;
+
+
 import { Navigate } from "react-router";
+import useAuth from "../hooks/useAuth";
+import LoadingSpinner from "../components/Shared/LoadingSpinner";
 
 const AdminRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p><LoadingSpinner></LoadingSpinner></p>;
 
-  if (user?.role !== "admin") {
-    return <Navigate to="/" />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
   }
-
   return children;
 };
 
 export default AdminRoute;
+

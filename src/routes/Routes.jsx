@@ -5,21 +5,26 @@ import SignUp from "../pages/SignUp/SignUp";
 import ProductDetails from "../pages/ProductDetails/ProductDetails"
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
-//import AddPlant from "../pages/Dashboard/Seller/AddPlant";
-import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
-//import Profile from "../pages/Dashboard/Common/Profile";
-//import Statistics from "../pages/Dashboard/Common/Statistics";
+import AdminAllProducts from "../pages/Dashboard/Admin/AdminAllProducts";
 import MainLayout from "../layouts/MainLayout";
-//import MyInventory from "../pages/Dashboard/Seller/MyInventory";
-//import ManageOrders from "../pages/Dashboard/Seller/ManageOrders";
+import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import MyOrders from "../pages/Dashboard/Customer/MyOrders";
 import { createBrowserRouter } from "react-router";
 import AllProducts from "../components/Home/AllProductsPage";
 import BookingForm from "../pages/BookingForm/BookingForm";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
+import AdminRoute from "./AdminRoute";
+//import AddPlant from "../pages/Dashboard/Seller/AddPlant";
+
+//import Profile from "../pages/Dashboard/Common/Profile";
+//import Statistics from "../pages/Dashboard/Common/Statistics";
+
+//import MyInventory from "../pages/Dashboard/Seller/MyInventory";
+//import ManageOrders from "../pages/Dashboard/Seller/ManageOrders";
+
 //import SellerRequests from "../pages/Dashboard/Admin/SellerRequests";
 //import SellerRoute from "./SellerRoute";
-import AdminRoute from "./AdminRoute";
+
 
 export const router = createBrowserRouter([
   {
@@ -33,10 +38,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/products/:id",
-        element: <PrivateRoute>
-          <ProductDetails></ProductDetails>
-        </PrivateRoute>
-        ,
+        element: (
+          <PrivateRoute>
+            <ProductDetails></ProductDetails>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/payment/:id",
@@ -46,23 +52,11 @@ export const router = createBrowserRouter([
   },
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <SignUp /> },
-  { path: "/all-products", element: <AllProducts></AllProducts> },
   {
-    path: "/dashboard/my-orders",
-    element: (
-      <PrivateRoute>
-        <MyOrders></MyOrders>
-      </PrivateRoute>
-    )
+    path: "/all-products",
+    element: <AllProducts></AllProducts>,
   },
-  {
-    path: "/booking/:id",
-    element: (
-      <PrivateRoute>
-        <BookingForm></BookingForm>
-      </PrivateRoute>
-    )
-  },
+
   {
     path: "/dashboard",
     element: (
@@ -81,14 +75,30 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-    //   {
-    //     index: true,
-    //     element: (
-    //       <PrivateRoute>
-    //         <Statistics />
-    //       </PrivateRoute>
-    //     ),
-    //   },
+      {
+        path: "all-products",
+        element: (
+             <AdminRoute>
+              <AdminAllProducts></AdminAllProducts>
+             </AdminRoute>
+        ),
+      },
+      {
+        path: "my-orders",
+        element: (
+          <PrivateRoute>
+            <MyOrders></MyOrders>
+          </PrivateRoute>
+        ),
+      },
+      //   {
+      //     index: true,
+      //     element: (
+      //       <PrivateRoute>
+      //         <Statistics />
+      //       </PrivateRoute>
+      //     ),
+      //   },
       // {
       //   path: "add-plant",
       //   element: (
@@ -145,6 +155,14 @@ export const router = createBrowserRouter([
       //     </PrivateRoute>
       //   ),
       // },
-     ],
-   }
+    ],
+  },
+  {
+    path: "/booking/:id",
+    element: (
+      <PrivateRoute>
+        <BookingForm></BookingForm>
+      </PrivateRoute>
+    ),
+  },
 ]);
