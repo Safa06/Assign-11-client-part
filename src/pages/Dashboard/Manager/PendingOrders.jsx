@@ -1,81 +1,115 @@
-import { useEffect, useState } from "react";
+// ManagerPendingOrders.jsx
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
-const PendingOrders = () => {
+const ManagerPendingOrders = () => {
   const [orders, setOrders] = useState([]);
-  const navigate = useNavigate();
 
+  // Fetch pending orders created by this manager
   useEffect(() => {
     axios
-      .get("http://localhost:5000/pending-orders")
-      .then((res) => setOrders(res.data));
+      .get("http://localhost:5000/pending-orders") // backend returns pending orders for manager
+      .then((res) => setOrders(res.data))
+      .catch((err) => console.error(err));
   }, []);
 
-  const updateStatus = (id, status) => {
-    axios
-      .patch(`http://localhost:5000/pending-orders/${id}`, { status })
-      .then(() => {
-        setOrders((prev) => prev.filter((o) => o._id !== id));
-      });
+  const handleApprove = (orderId) => {
+    Swal.fire({
+      title: "Approve this order?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Approve",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .patch(`http://localhost:5000/pending-orders/${orderId}`, {
+            status: "Approved",
+          })
+          .then(() => {
+            setOrders((prev) => prev.filter((order) => order._id !== orderId));
+            Swal.fire("Approved!", "Order has been approved.", "success");
+          });
+      }
+    });
+  };
+
+  const handleReject = (orderId) => {
+    Swal.fire({
+      title: "Reject this order?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Reject",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .patch(`http://localhost:5000/pending-orders/${orderId}`, {
+            status: "Rejected",
+          })
+          .then(() => {
+            setOrders((prev) => prev.filter((order) => order._id !== orderId));
+            Swal.fire("Rejected!", "Order has been rejected.", "success");
+          });
+      }
+    });
   };
 
   return (
-    <div>
+    <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Pending Orders</h2>
-
-      <table className="w-full border">
-        <thead className="bg-gray-200">
-          <tr>
-            <th className="border p-2">Order ID</th>
-            <th className="border p-2">User</th>
-            <th className="border p-2">Product</th>
-            <th className="border p-2">Qty</th>
-            <th className="border p-2">Date</th>
-            <th className="border p-2">Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {orders.map((order) => (
-            <tr key={order._id}>
-              <td className="border p-2">{order._id}</td>
-              <td className="border p-2">{order.email}</td>
-              <td className="border p-2">{order.productTitle}</td>
-              <td className="border p-2">{order.quantity}</td>
-              <td className="border p-2">
-                {new Date(order.createdAt).toLocaleDateString()}
-              </td>
-              <td className="border p-2 space-x-2">
-                <button
-                  className="bg-blue-500 text-white px-2 py-1"
-                  onClick={() =>
-                    navigate(`/dashboard/orders/details/${order._id}`)
-                  }
-                >
-                  View
-                </button>
-
-                <button
-                  className="bg-green-600 text-white px-2 py-1"
-                  onClick={() => updateStatus(order._id, "Approved")}
-                >
-                  Approve
-                </button>
-
-                <button
-                  className="bg-red-600 text-white px-2 py-1"
-                  onClick={() => updateStatus(order._id, "Rejected")}
-                >
-                  Reject
-                </button>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="table-auto w-full border border-gray-400">
+          <thead className="bg-gray-200">
+            <tr>
+              <th className="border px-4 py-2">Order ID</th>
+              <th className="border px-4 py-2">User</th>
+              <th className="border px-4 py-2">Product</th>
+              <th className="border px-4 py-2">Quantity</th>
+              <th className="border px-4 py-2">Order Date</th>
+              <th className="border px-4 py-2">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <tr key={order._id}>
+                <td className="border px-4 py-2">{order._id}</td>
+                <td className="border px-4 py-2">{order.email}</td>
+                <td className="border px-4 py-2">{order.productTitle}</td>
+                <td className="border px-4 py-2">{order.quantity}</td>
+                <td className="border px-4 py-2">
+                  {new Date(order.createdAt).toLocaleString()}
+                </td>
+                <td className="border px-4 py-2 space-x-2">
+                  <button
+                    className="bg-green-600 text-white px-2 py-1 rounded"
+                    onClick={() => handleApprove(order._id)}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    onClick={() => handleReject(order._id)}
+                  >
+                    Reject
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {orders.length === 0 && (
+              <tr>
+                <td
+                  colSpan={6}
+                  className="border px-4 py-2 text-center text-gray-500"
+                >
+                  No pending orders
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
 
-export default PendingOrders;
+export default ManagerPendingOrders;
