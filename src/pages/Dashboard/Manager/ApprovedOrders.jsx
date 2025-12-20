@@ -22,9 +22,9 @@ const ApprovedOrders = () => {
       .catch(console.error);
   };
 
-  const handleTrackingChange = (e) => {
-    setTrackingData({ ...trackingData, [e.target.name]: e.target.value });
-  };
+  // const handleTrackingChange = (e) => {
+  //   setTrackingData({ ...trackingData, [e.target.name]: e.target.value });
+  // };
 
   const addTracking = (orderId) => {
     const { location, note, status } = trackingData;
