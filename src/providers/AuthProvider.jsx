@@ -51,49 +51,47 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-  // onAuthStateChange
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-  //     console.log("CurrentUser-->", currentUser?.email);
-  //     setUser(currentUser);
-  //     setLoading(false);
-  //   });
-  //   return () => {
-  //     return unsubscribe();
-  //   };
-  // }, []);
-
+  //onAuthStateChange
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser?.email) {
-        try {
-          const res = await fetch(
-            `http://localhost:5000/users?email=${currentUser.email}`
-          );
-          const dbUser = await res.json();
-
-          // 🔥 MERGE ROLE INTO USER
-          setUser({
-            ...currentUser,
-            role: dbUser.role,
-            name: dbUser.name,
-          });
-        } catch (err) {
-          console.error(err);
-          setUser(currentUser);
-        }
-      } else {
-        setUser(null);
-      }
+      console.log("CurrentUser-->", currentUser?.email);
+      setUser(currentUser);
       setLoading(false);
     });
-
-    return () => unsubscribe();
+    return () => {
+      return unsubscribe();
+    };
   }, []);
 
-  
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+  //     if (currentUser?.email) {
+  //       try {
+  //         const res = await fetch(
+  //           `http://localhost:5000/users?email=${currentUser.email}`
+  //         );
+  //         const dbUser = await res.json();
+  //         setUser({
+  //           ...currentUser,
+  //           role: dbUser.role,
+  //           name: dbUser.name,
+  //         });
+  //       } catch (err) {
+  //         console.error(err);
+  //         setUser(currentUser);
+  //       }
+  //     } else {
+  //       setUser(null);
+  //     }
+  //     setLoading(false);
+  //   });
+
+  //   return () => unsubscribe();
+  // }, []);
 
   
+
+
   const authInfo = {
     user,
     setUser,

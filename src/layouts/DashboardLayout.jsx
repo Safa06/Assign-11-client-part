@@ -51,8 +51,16 @@
 // layouts/DashboardLayout.jsx
 import { Outlet } from "react-router";
 import Sidebar from "../components/Dashboard/Sidebar/Sidebar";
+import useAuth from "../hooks/useAuth";
 
 const DashboardLayout = () => {
+  const { user, loading } = useAuth();
+
+  console.log(user);
+  console.log(loading);
+
+
+  
   return (
     <div className="flex min-h-screen">
       <Sidebar />
