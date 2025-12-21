@@ -1,115 +1,113 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router";
-import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router";
 import axios from "axios";
+import useAuth from "../../hooks/useAuth";
 
 const Register = () => {
-  const { createUser, updateUserProfile, signInWithGoogle } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState(""); 
   const [role, setRole] = useState("user");
-  const [error, setError] = useState("");
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setError("");
-
     try {
-      const userCredential = await createUser(email, password);
-      const user = userCredential.user;
-      console.log(user);
-      await updateUserProfile(name);
+      // Adjust payload as per your backend (no password required currently)
+      const res = await axios.post("http://localhost:5000/users", {
+        name,
+        email,
+        role,
+      });
 
-      // Save in backend
-      await axios.post("http://localhost:5000/users", { name, email, role });
+      console.log(res,password);
 
+      // Optional: login immediately after registration
+      login({ name, email, role });
       navigate("/dashboard");
     } catch (err) {
-      setError(err.message || "Registration failed");
+      console.error(err);
+      alert(err.response?.data?.message || "Registration failed");
     }
   };
 
-  const handleGoogleRegister = async () => {
-    setError("");
-    try {
-      const result = await signInWithGoogle();
-      const user = result.user;
 
-      const res = await axios.get(
-        `http://localhost:5000/users?email=${user.email}`
-      );
-      if (res.data.length === 0) {
-        await axios.post("http://localhost:5000/users", {
-          name: user.displayName,
-          email: user.email,
-          role,
-        });
-      }
+   const handleGoogleSignIn = () => {
+     toast.loading("Creating user...", { id: "create-user" });
+     signInWithGoogle()
+       .then((result) => {
+         toast.success("User created successfully!", { id: "create-user" });
+         console.log(result.user);
+         navigate("/");
+       })
+       .catch((error) => {
+         console.log(error);
+         toast.error(error.message, { id: "create-user" });
+       });
+   };
 
-      navigate("/dashboard");
-    } catch (err) {
-      setError(err.message || "Google Sign-In failed");
-    }
-  };
+  
+  
 
   return (
-    <div className="max-w-md mx-auto mt-20 p-6 border rounded">
-      <h2 className="text-2xl font-bold mb-4">Register</h2>
+    <form onSubmit={handleRegister} className="max-w-md mx-auto p-6">
+      <h2 className="text-xl font-bold mb-4">Register</h2>
 
-      <form onSubmit={handleRegister} className="space-y-3">
-        <input
-          type="text"
-          placeholder="Name"
-          className="input w-full"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          className="input w-full"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="input w-full"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+      <input
+        type="text"
+        placeholder="Full Name"
+        className="border p-2 w-full mb-3"
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
 
-        <select
-          className="select w-full"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        >
-          <option value="user">User</option>
-          <option value="manager">Manager</option>
-          <option value="admin">Admin</option>
-        </select>
+      <input
+        type="email"
+        placeholder="Email"
+        className="border p-2 w-full mb-3"
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
 
-        <button className="btn btn-primary w-full" type="submit">
-          Register
-        </button>
-      </form>
+      {/* Optional password input if you later add authentication */}
+      <input
+        type="password"
+        placeholder="Password"
+        className="border p-2 w-full mb-3"
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
 
-      <button
-        onClick={handleGoogleRegister}
-        className="btn btn-outline w-full mt-3"
+      <select
+        className="border p-2 w-full mb-3"
+        value={role}
+        onChange={(e) => setRole(e.target.value)}
       >
-        Sign up with Google
-      </button>
+        <option value="user">User</option>
+        <option value="manager">Manager</option>
+        <option value="admin">Admin</option>
+      </select>
 
-      {error && <p className="text-red-500 mt-2">{error}</p>}
+      <button className="bg-green-600 text-white w-full py-2">Register</button>
 
-      <p className="mt-4 text-center">
-        Already have an account?{" "}
-        <Link to="/login" className="text-blue-500 underline">
-          Login
+       <button
+          onClick={handleGoogleSignIn}
+          className="btn bg-white rounded-2xl text-black border-2 border-green-600"
+        >
+          <FcGoogle />
+          Login with Google
+        </button>
+        <p className="text-center">
+          Already have an account? Please{" "}
+          <Link className="text-blue-500 hover:text-red-600" to="/auth/login">
+            Login
         </Link>
-      </p>
-    </div>
+        </p>
+
+
+    </form>
   );
 };
 

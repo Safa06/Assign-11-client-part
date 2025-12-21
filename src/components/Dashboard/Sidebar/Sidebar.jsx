@@ -2,14 +2,18 @@ import { Link } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 
 const Sidebar = () => {
-  const { users } = useAuth();
+  //const { users } = useAuth();
+  const { role } = useAuth();
 
+  console.log(role);
+
+  
   return (
     <aside className="w-64 bg-gray-900 text-white p-4">
       <h2 className="text-xl font-bold mb-6">Dashboard</h2>
 
       {/* Admin */}
-      {users?.role === "admin" && (
+      {role === "admin" && (
         <>
           <Link to="/dashboard/manage-users" className="block mb-2">
             Manage Users
@@ -20,11 +24,14 @@ const Sidebar = () => {
           <Link to="/dashboard/all-orders" className="block mb-2">
             All Orders
           </Link>
+          <Link to="/dashboard/profile" className="block mb-2">
+            My Profile
+          </Link>
         </>
       )}
 
       {/* Manager */}
-      {users?.role === "manager" && (
+      {role === "manager" && (
         <>
           <Link to="/dashboard/add-product" className="block mb-2">
             Add Product
@@ -38,11 +45,14 @@ const Sidebar = () => {
           <Link to="/dashboard/approved-orders" className="block mb-2">
             Approved Orders
           </Link>
+          <Link to="/dashboard/profile" className="block mb-2">
+            My Profile
+          </Link>
         </>
       )}
 
       {/* User */}
-      {users?.role === "user" && (
+      {role === "user" && (
         <>
           <Link to="/dashboard/my-orders" className="block mb-2">
             My Orders

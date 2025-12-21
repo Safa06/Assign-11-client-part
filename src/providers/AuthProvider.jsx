@@ -18,11 +18,10 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState(null);
 
 
-  const login = (userData) => {
-    setUser(userData);
-  };
+
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -51,44 +50,29 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-  //onAuthStateChange
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      console.log("CurrentUser-->", currentUser?.email);
-      setUser(currentUser);
-      setLoading(false);
-    });
-    return () => {
-      return unsubscribe();
-    };
-  }, []);
+const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    setUser(currentUser);
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-  //     if (currentUser?.email) {
-  //       try {
-  //         const res = await fetch(
-  //           `http://localhost:5000/users?email=${currentUser.email}`
-  //         );
-  //         const dbUser = await res.json();
-  //         setUser({
-  //           ...currentUser,
-  //           role: dbUser.role,
-  //           name: dbUser.name,
-  //         });
-  //       } catch (err) {
-  //         console.error(err);
-  //         setUser(currentUser);
-  //       }
-  //     } else {
-  //       setUser(null);
-  //     }
-  //     setLoading(false);
-  //   });
-
-  //   return () => unsubscribe();
-  // }, []);
-
+    if (currentUser?.email) {
+      try {
+        const res = await fetch(
+          `http://localhost:5000/users?email=${currentUser.email}`
+        );
+        const data = await res.json();
+        setRole(data.role);
+      } catch (err) {
+        console.error("Role fetch failed", err);
+        setRole(null);
+      }
+    } else {
+      setRole(null);
+    }
+    setLoading(false); 
+  });
+  return () => unsubscribe();
+}, []);
   
 
 
@@ -102,7 +86,9 @@ const AuthProvider = ({ children }) => {
     signInWithGoogle,
     logOut,
     updateUserProfile,
-    login
+    role,
+    setRole,
+    
   };
 
   return (
