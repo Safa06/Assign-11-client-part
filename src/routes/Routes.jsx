@@ -23,10 +23,12 @@ import ManageProducts from "../pages/Dashboard/Manager/ManageProducts"
 import PendingOrders from "../pages/Dashboard/Manager/PendingOrders"
 import ApprovedOrders from "../pages/Dashboard/Manager/ApprovedOrders";
 import TrackOrder from "../pages/Dashboard/Customer/TrackOrder";
+import Profile from "../pages/Dashboard/Common/Profile";
+
 
 //import AddPlant from "../pages/Dashboard/Seller/AddPlant";
 
-//import Profile from "../pages/Dashboard/Common/Profile";
+
 //import Statistics from "../pages/Dashboard/Common/Statistics";
 
 //import MyInventory from "../pages/Dashboard/Seller/MyInventory";
@@ -175,6 +177,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <TrackOrder />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <PrivateRoute>
+            <Profile></Profile>
           </PrivateRoute>
         ),
       },
