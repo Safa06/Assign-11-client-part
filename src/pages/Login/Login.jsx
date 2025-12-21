@@ -4,11 +4,15 @@ import useAuth from "../../hooks/useAuth";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router";
 import { Helmet } from "react-helmet";
+// import { useModeAnimation } from "react-theme-switch-animation";
+
+
 
 const Login = () => {
  
   const { signIn, signInWithGoogle } = useAuth(); 
   const navigate = useNavigate();
+  // const { ref, toggleSwitchTheme, isDarkMode } = useModeAnimation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,6 +48,9 @@ const Login = () => {
       className="max-w-md bg-green-100 my-10 flex flex-col justify-center items-center rounded-3xl mx-auto p-6"
     >
       <title>Login</title>
+      {/* <button ref={ref} onClick={toggleSwitchTheme}>
+        Toggle Dark Mode (Currently {isDarkMode ? "Dark" : "Light"} Mode)
+      </button> */}
       <h2 className="text-3xl font-bold mb-4 text-green-800 rounded">Login</h2>
 
       <input

@@ -122,6 +122,12 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "payment",
+        element: <PaymentSuccess>
+
+        </PaymentSuccess>
+      },
 
 
       // manager part
@@ -175,70 +181,7 @@ export const router = createBrowserRouter([
       },
     ],
 
-    //   {
-    //     index: true,
-    //     element: (
-    //       <PrivateRoute>
-    //         <Statistics />
-    //       </PrivateRoute>
-    //     ),
-    //   },
-    // {
-    //   path: "add-plant",
-    //   element: (
-    //     <PrivateRoute>
-    //       <SellerRoute>
-    //         <AddPlant />
-    //       </SellerRoute>
-    //     </PrivateRoute>
-    //   ),
-    // },
-    // {
-    //   path: "my-inventory",
-    //   element: (
-    //     <PrivateRoute>
-    //       <SellerRoute>
-    //         <MyInventory />
-    //       </SellerRoute>
-    //     </PrivateRoute>
-    //   ),
-    // },
-    // {
-    //   path: "seller-requests",
-    //   element: (
-    //     <PrivateRoute>
-    //       <AdminRoute>
-    //         <SellerRequests />
-    //       </AdminRoute>
-    //     </PrivateRoute>
-    //   ),
-    // },
-    // {
-    //   path: "profile",
-    //   element: (
-    //     <PrivateRoute>
-    //       <Profile />
-    //     </PrivateRoute>
-    //   ),
-    // },
-    // {
-    //   path: "my-orders",
-    //   element: (
-    //     <PrivateRoute>
-    //       <MyOrders />
-    //     </PrivateRoute>
-    //   ),
-    // },
-    // {
-    //   path: "manage-orders",
-    //   element: (
-    //     <PrivateRoute>
-    //       <SellerRoute>
-    //         <ManageOrders />
-    //       </SellerRoute>
-    //     </PrivateRoute>
-    //   ),
-    // },
+    
   },
   {
     path: "/booking/:id",

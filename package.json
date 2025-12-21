@@ -29,6 +29,7 @@
     "react-router": "^7.10.1",
     "react-sidebar": "^3.0.2",
     "react-spinners": "^0.17.0",
+    "react-theme-switch-animation": "^1.0.0",
     "react-toastify": "^11.0.5",
     "react-type-animation": "^3.2.0",
     "sweetalert2": "^11.26.10",

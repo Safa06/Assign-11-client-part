@@ -141,7 +141,7 @@ const BookingForm = () => {
             className="textarea"
           />
 
-          <button
+          <button onClick={()=>navigate("/payment")}
             className="px-8 py-2 bg-green-800 rounded-xl text-white font-bold border-2 hover:border-red-800 hover:text-red-800
               hover:bg-white"
           >
