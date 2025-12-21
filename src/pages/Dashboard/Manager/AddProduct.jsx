@@ -47,8 +47,8 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded">
-      <h2 className="text-2xl font-bold mb-4">Add Product</h2>
+    <div className="max-w-3xl mx-auto p-6  shadow rounded">
+      <h2 className="text-3xl text-green-800 font-bold mb-4">Add Product</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <input
@@ -127,7 +127,12 @@ const AddProduct = () => {
           Show on Home Page
         </label>
 
-        <button className="btn btn-success w-full">Add Product</button>
+        <button
+          className="inline-block px-6 py-3 bg-green-800 text-white rounded-xl font-bold
+                     border-2 border-transparent hover:border-red-800 hover:bg-white hover:text-red-800"
+        >
+          Add Product
+        </button>
       </form>
     </div>
   );

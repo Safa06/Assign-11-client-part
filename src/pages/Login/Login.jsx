@@ -3,8 +3,10 @@ import { useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router";
+import { Helmet } from "react-helmet";
 
 const Login = () => {
+ 
   const { signIn, signInWithGoogle } = useAuth(); 
   const navigate = useNavigate();
 
@@ -41,6 +43,7 @@ const Login = () => {
       onSubmit={handleLogin}
       className="max-w-md bg-green-100 my-10 flex flex-col justify-center items-center rounded-3xl mx-auto p-6"
     >
+      <title>Login</title>
       <h2 className="text-3xl font-bold mb-4 text-green-800 rounded">Login</h2>
 
       <input
@@ -80,7 +83,10 @@ const Login = () => {
 
       <p className="text-center italic">
         Newbie? Please{" "}
-        <Link className="text-red-800 hover:text-green-800 font-bold" to="/signup">
+        <Link
+          className="text-red-800 hover:text-green-800 font-bold"
+          to="/signup"
+        >
           SignUp
         </Link>
       </p>

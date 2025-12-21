@@ -26,7 +26,6 @@ const Register = () => {
    }
   };
   
-
    const handleGoogleSignIn = () => {
      toast.loading("Creating user...", { id: "create-user" });
      signInWithGoogle()
@@ -41,17 +40,18 @@ const Register = () => {
        });
    };
 
-  
-  
-
   return (
-    <form onSubmit={handleRegister} className="max-w-md mx-auto p-6">
-      <h2 className="text-xl font-bold mb-4">Register</h2>
+    <form
+      onSubmit={handleRegister}
+      className="max-w-md mx-auto p-6 bg-green-100 flex flex-col justify-center items-center my-10 p-6 rounded-3xl"
+    >
+      <title>Sign Up</title>
+      <h2 className="text-3xl text-green-800 font-bold mb-4">Sign Up</h2>
 
       <input
         type="text"
         placeholder="Full Name"
-        className="border p-2 w-full mb-3"
+        className="border-2 border-green-800 rounded-xl p-2 w-full m-3"
         onChange={(e) => setName(e.target.value)}
         required
       />
@@ -59,7 +59,7 @@ const Register = () => {
       <input
         type="email"
         placeholder="Email"
-        className="border p-2 w-full mb-3"
+        className="border-2 border-green-800 rounded-xl p-2 w-full m-3"
         onChange={(e) => setEmail(e.target.value)}
         required
       />
@@ -67,13 +67,13 @@ const Register = () => {
       <input
         type="password"
         placeholder="Password"
-        className="border p-2 w-full mb-3"
+        className="border-2 border-green-800 rounded-xl p-2 w-full m-3"
         onChange={(e) => setPassword(e.target.value)}
         required
       />
 
       <select
-        className="border p-2 w-full mb-3"
+        className="border-2 border-green-800 rounded-xl p-2 w-full m-3"
         value={role}
         onChange={(e) => setRole(e.target.value)}
       >
@@ -82,23 +82,29 @@ const Register = () => {
         <option value="admin">Admin</option>
       </select>
 
-      <button onClick={handleRegister} className="bg-green-600 text-white w-full py-2">Register</button>
+      <button
+        onClick={handleRegister}
+        className="bg-green-800 rounded-2xl text-white w-1/2 my-3 py-2 font-semibold hover:text-red-800 hover:border-red-800 border-2 border-green-800 hover:bg-white"
+      >
+        Register
+      </button>
 
-       <button
-          onClick={handleGoogleSignIn}
-          className="btn bg-white rounded-2xl text-black border-2 border-green-600"
+      <button
+        onClick={handleGoogleSignIn}
+        className="btn bg-white rounded-2xl text-black border-2 py-2 px-8 mb-4 border-green-800"
+      >
+        <FcGoogle />
+        Login with Google
+      </button>
+      <p className="text-center italic">
+        Already have an account? Please{" "}
+        <Link
+          className="text-red-800 hover:text-green-800 font-bold"
+          to="/login"
         >
-          <FcGoogle />
-          Login with Google
-        </button>
-        <p className="text-center">
-          Already have an account? Please{" "}
-          <Link className="text-blue-500 hover:text-red-600" to="/login">
-            Login
+          Login
         </Link>
-        </p>
-
-
+      </p>
     </form>
   );
 };

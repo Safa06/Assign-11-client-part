@@ -26,7 +26,7 @@ const ManageUsers = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
+      <h2 className="text-3xl text-green-800 font-bold mb-4">Manage Users</h2>
 
       <table className="w-full border border-gray-400">
         <thead className="bg-gray-200">

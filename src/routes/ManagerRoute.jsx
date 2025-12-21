@@ -10,8 +10,6 @@ const ManagerRoute = ({ children }) => {
     return <Navigate to="/login" replace />;
   }
   return children;
-//};
-  //return <Navigate to="/login" replace />;
 };
 
 export default ManagerRoute;

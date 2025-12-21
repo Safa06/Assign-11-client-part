@@ -27,7 +27,7 @@ const UpdateProduct = () => {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-xl">
-      <h2 className="text-xl font-bold mb-4">Update Product</h2>
+      <h2 className="text-green-800 text-2xl font-bold my-8">Update Product</h2>
 
       <input
         className="input input-bordered w-full mb-3"
@@ -49,7 +49,12 @@ const UpdateProduct = () => {
         }
       />
 
-      <button className="btn btn-success">Update</button>
+      <button
+        className="inline-block px-6 py-3 bg-green-800 text-white rounded-xl font-bold
+                     border-2 border-transparent hover:border-red-800 hover:bg-white hover:text-red-800"
+      >
+        Update
+      </button>
     </form>
   );
 };

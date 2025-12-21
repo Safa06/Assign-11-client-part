@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
-//import { useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const ManageProducts = () => {
   const { user } = useAuth();
@@ -32,7 +32,7 @@ const ManageProducts = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Manage Products</h2>
+      <h2 className="text-3xl font-bold mb-4 text-green-800">Manage Products</h2>
 
       <input
         className="border p-2 mb-4 w-full"

@@ -38,10 +38,7 @@ const AdminAllProducts = () => {
 
   return (
     <div>
-      <h2 className=" text-center italic text-green-800 text-2xl font-bold mb-4">
-        ~ Admin ~
-      </h2>
-      <h2 className="text-2xl font-bold mb-4">All Products</h2>
+      <h2 className="text-3xl font-bold mb-4 text-green-800 mt-10">All Products</h2>
 
       <div className="overflow-x-auto">
         <table className="table-auto w-full border border-gray-400">

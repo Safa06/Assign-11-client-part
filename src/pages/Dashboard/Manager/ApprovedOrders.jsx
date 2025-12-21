@@ -58,7 +58,6 @@ const ApprovedOrders = () => {
               <th className="border px-4 py-2">User</th>
               <th className="border px-4 py-2">Product</th>
               <th className="border px-4 py-2">Quantity</th>
-              <th className="border px-4 py-2">Approved Date</th>
               <th className="border px-4 py-2">Add Tracking</th>
             </tr>
           </thead>
@@ -69,11 +68,6 @@ const ApprovedOrders = () => {
                 <td className="border px-4 py-2">{order.email}</td>
                 <td className="border px-4 py-2">{order.productTitle}</td>
                 <td className="border px-4 py-2">{order.quantity}</td>
-                <td className="border px-4 py-2">
-                  {order.approvedAt
-                    ? new Date(order.approvedAt).toLocaleDateString()
-                    : "-"}
-                </td>
                 <td className="border px-4 py-2">
                   <input
                     type="text"

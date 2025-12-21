@@ -1,4 +1,3 @@
-// src/pages/Dashboard/Customer/MyOrders.jsx
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";

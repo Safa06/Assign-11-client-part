@@ -45,6 +45,7 @@ const Home = () => {
   //console.log(feedbacks.name);
   return (
     <div className="">
+      <title>Home</title>
       {/* HERO Banner */}
       <section className="bg-base-100">
         <div className="max-w-7xl mx-auto px-6 py-6 grid grid-cols-1 md:grid-cols-2 lg:gap-50 gap-18 justify-between items-center">
@@ -80,7 +81,7 @@ const Home = () => {
             </p>
 
             <Link
-              to="/products"
+              to="/all-products"
               className="inline-block mt-8 px-6 py-3 bg-green-800 rounded-xl text-white font-bold border-2 hover:border-red-800 hover:text-red-800
               hover:bg-white"
             >
@@ -296,10 +297,10 @@ const Home = () => {
           Ready to Upgrade Your Style?
         </h2>
         <Link
-          to="/products"
+          to="/all-products"
           className="inline-block px-6 py-3 bg-green-800 text-white rounded-xl font-bold
                      border-2 border-transparent hover:border-red-800 hover:bg-white hover:text-red-800
-                     transition-all duration-300"
+                     "
         >
           Get Started
         </Link>

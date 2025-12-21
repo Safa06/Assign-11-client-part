@@ -25,19 +25,6 @@ import TrackOrder from "../pages/Dashboard/Customer/TrackOrder";
 import Profile from "../pages/Dashboard/Common/Profile";
 import ErrorLoading from "../pages/ErrorLoading"
 
-
-//import AddPlant from "../pages/Dashboard/Seller/AddPlant";
-
-
-//import Statistics from "../pages/Dashboard/Common/Statistics";
-
-//import MyInventory from "../pages/Dashboard/Seller/MyInventory";
-//import ManageOrders from "../pages/Dashboard/Seller/ManageOrders";
-
-//import SellerRequests from "../pages/Dashboard/Admin/SellerRequests";
-//import SellerRoute from "./SellerRoute";
-
-
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -135,7 +122,6 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-
 
 
       // manager part

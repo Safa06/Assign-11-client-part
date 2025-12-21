@@ -68,7 +68,7 @@ const PendingOrders = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Pending Orders</h2>
+      <h2 className="text-3xl text-green-800 font-bold mb-4">Pending Orders</h2>
       <div className="overflow-x-auto">
         <table className="table-auto w-full border border-gray-400">
           <thead className="bg-gray-200">
