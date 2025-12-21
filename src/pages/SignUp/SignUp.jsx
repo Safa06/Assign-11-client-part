@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import { FcGoogle } from "react-icons/fc";
+import { Link } from "react-router";
+import toast from "react-hot-toast";
+
 
 const Register = () => {
-  const { login } = useAuth();
+  const { signInWithGoogle, createUser } = useAuth();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -12,27 +15,17 @@ const Register = () => {
   const [password, setPassword] = useState(""); 
   const [role, setRole] = useState("user");
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    try {
-      // Adjust payload as per your backend (no password required currently)
-      const res = await axios.post("http://localhost:5000/users", {
-        name,
-        email,
-        role,
-      });
-
-      console.log(res,password);
-
-      // Optional: login immediately after registration
-      login({ name, email, role });
-      navigate("/dashboard");
-    } catch (err) {
-      console.error(err);
-      alert(err.response?.data?.message || "Registration failed");
-    }
+ const handleRegister = async (e) => {
+   e.preventDefault();
+   try {
+     await createUser(email, password, name, role);
+     navigate("/"); 
+   } catch (err) {
+     console.error(err);
+     alert(err.message || "Registration failed");
+   }
   };
-
+  
 
    const handleGoogleSignIn = () => {
      toast.loading("Creating user...", { id: "create-user" });
@@ -71,7 +64,6 @@ const Register = () => {
         required
       />
 
-      {/* Optional password input if you later add authentication */}
       <input
         type="password"
         placeholder="Password"
@@ -90,7 +82,7 @@ const Register = () => {
         <option value="admin">Admin</option>
       </select>
 
-      <button className="bg-green-600 text-white w-full py-2">Register</button>
+      <button onClick={handleRegister} className="bg-green-600 text-white w-full py-2">Register</button>
 
        <button
           onClick={handleGoogleSignIn}
@@ -101,7 +93,7 @@ const Register = () => {
         </button>
         <p className="text-center">
           Already have an account? Please{" "}
-          <Link className="text-blue-500 hover:text-red-600" to="/auth/login">
+          <Link className="text-blue-500 hover:text-red-600" to="/login">
             Login
         </Link>
         </p>
