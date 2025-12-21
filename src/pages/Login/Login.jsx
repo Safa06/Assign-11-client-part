@@ -1,160 +1,65 @@
-import { Link, Navigate, useLocation, useNavigate } from "react-router";
-import toast from "react-hot-toast";
-import LoadingSpinner from "../../components/Shared/LoadingSpinner";
+//
+
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import axios from "axios";
 import useAuth from "../../hooks/useAuth";
-import { FcGoogle } from "react-icons/fc";
-import { TbFidgetSpinner } from "react-icons/tb";
-import { saveOrUpdateUser } from "../../utils";
 
 const Login = () => {
-  const { signIn, signInWithGoogle, loading, user, setLoading } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const from = location.state || "/";
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("user");
 
-  if (loading) return <LoadingSpinner />;
-  if (user) return <Navigate to={from} replace={true} />;
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  // form submit handler
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const form = event.target;
-    const email = form.email.value;
-    const password = form.password.value;
+    const res = await axios.post("http://localhost:5000/login", {
+      email,
+      password,
+      role,
+    });
 
-    try {
-      //User Login
-      const { user } = await signIn(email, password);
+    // save in auth context
+    login(res.data);
 
-      await saveOrUpdateUser({
-        name: user?.displayName,
-        email: user?.email,
-        image: user?.photoURL,
-      });
-
-      navigate(from, { replace: true });
-      toast.success("Login Successful");
-    } catch (err) {
-      console.log(err);
-      toast.error(err?.message);
-    }
+    navigate("/dashboard");
   };
 
-  // Handle Google Signin
-  const handleGoogleSignIn = async () => {
-    try {
-      //User Registration using google
-      const { user } = await signInWithGoogle();
-
-      await saveOrUpdateUser({
-        name: user?.displayName,
-        email: user?.email,
-        image: user?.photoURL,
-      });
-      navigate(from, { replace: true });
-      toast.success("Login Successful");
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-      toast.error(err?.message);
-    }
-  };
   return (
-    <div className="flex justify-center items-center min-h-screen bg-white">
-      <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
-        <div className="mb-8 text-center">
-          <h1 className="my-3 text-4xl font-bold">Log In</h1>
-          <p className="text-sm text-gray-400">
-            Sign in to access your account
-          </p>
-        </div>
-        {/* Login Form */}
-        <form
-          onSubmit={handleSubmit}
-          noValidate=""
-          action=""
-          className="space-y-6 ng-untouched ng-pristine ng-valid"
-        >
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block mb-2 text-sm">
-                Email address
-              </label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                required
-                placeholder="Enter Your Email Here"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200 text-gray-900"
-                data-temp-mail-org="0"
-              />
-            </div>
-            <div>
-              <div className="flex justify-between">
-                <label htmlFor="password" className="text-sm mb-2">
-                  Password
-                </label>
-              </div>
-              <input
-                type="password"
-                name="password"
-                autoComplete="current-password"
-                id="password"
-                required
-                placeholder="*******"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200 text-gray-900"
-              />
-            </div>
-          </div>
+    <form onSubmit={handleLogin} className="max-w-md mx-auto p-6">
+      <h2 className="text-xl font-bold mb-4">Login</h2>
 
-          <div>
-            <button
-              type="submit"
-              className="bg-lime-500 w-full rounded-md py-3 text-white"
-            >
-              {loading ? (
-                <TbFidgetSpinner className="animate-spin m-auto" />
-              ) : (
-                "Continue"
-              )}
-            </button>
-          </div>
-        </form>
-        <div className="space-y-1">
-          <button className="text-xs hover:underline hover:text-lime-500 text-gray-400 cursor-pointer">
-            Forgot password?
-          </button>
-        </div>
-        <div className="flex items-center pt-4 space-x-1">
-          <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
-          <p className="px-3 text-sm dark:text-gray-400">
-            Login with social accounts
-          </p>
-          <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
-        </div>
-        <div
-          onClick={handleGoogleSignIn}
-          className="flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer"
-        >
-          <FcGoogle size={32} />
+      <input
+        type="email"
+        placeholder="Email"
+        className="border p-2 w-full mb-3"
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
 
-          <p>Continue with Google</p>
-        </div>
-        <p className="px-6 text-sm text-center text-gray-400">
-          Don&apos;t have an account yet?{" "}
-          <Link
-            state={from}
-            to="/signup"
-            className="hover:underline hover:text-lime-500 text-gray-600"
-          >
-            Sign up
-          </Link>
-          .
-        </p>
-      </div>
-    </div>
+      <input
+        type="password"
+        placeholder="Password"
+        className="border p-2 w-full mb-3"
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+
+      <select
+        className="border p-2 w-full mb-3"
+        value={role}
+        onChange={(e) => setRole(e.target.value)}
+      >
+        <option value="user">User</option>
+        <option value="manager">Manager</option>
+        <option value="admin">Admin</option>
+      </select>
+
+      <button className="bg-blue-600 text-white w-full py-2">Login</button>
+    </form>
   );
 };
 
