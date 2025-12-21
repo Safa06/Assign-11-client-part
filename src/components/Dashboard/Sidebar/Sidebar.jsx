@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import { Link } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 
@@ -6,80 +5,50 @@ const Sidebar = () => {
   const { user } = useAuth();
 
   return (
-    <aside className="w-64 bg-gray-900 text-white p-4 min-h-screen">
+    <aside className="w-64 bg-gray-900 text-white p-4">
       <h2 className="text-xl font-bold mb-6">Dashboard</h2>
 
+      {/* Admin */}
       {user?.role === "admin" && (
         <>
-          <Link
-            className="block py-2 px-3 mt-6 bg-gray-800 rounded hover:bg-gray-700"
-            to="/dashboard/manage-users"
-          >
+          <Link to="/dashboard/manage-users" className="block mb-2">
             Manage Users
           </Link>
-          <Link
-            className="block py-2 px-3 mt-6 bg-gray-800 rounded hover:bg-gray-700"
-            to="/dashboard/all-products"
-          >
+          <Link to="/dashboard/all-products" className="block mb-2">
             All Products
           </Link>
-          <Link
-            className="block py-2 px-3 mt-6 bg-gray-800 rounded hover:bg-gray-700"
-            to="/dashboard/all-orders"
-          >
+          <Link to="/dashboard/all-orders" className="block mb-2">
             All Orders
           </Link>
-          <Link
-            className="block py-2 px-3 mt-6 bg-gray-800 rounded hover:bg-gray-700"
-            to="/dashboard/profile"
-          >
-            My Profile
-          </Link>
         </>
       )}
 
+      {/* Manager */}
       {user?.role === "manager" && (
         <>
-          <Link
-            className="block py-2 px-3 mt-6 bg-gray-800 rounded hover:bg-gray-700"
-            to="/dashboard/add-product"
-          >
+          <Link to="/dashboard/add-product" className="block mb-2">
             Add Product
           </Link>
-          <Link
-            className="block py-2 px-3 mt-6 bg-gray-800 rounded hover:bg-gray-700"
-            to="/dashboard/manage-products"
-          >
+          <Link to="/dashboard/manage-products" className="block mb-2">
             Manage Products
           </Link>
-          <Link
-            className="block py-2 px-3 mt-6 bg-gray-800 rounded hover:bg-gray-700"
-            to="/dashboard/pending-orders"
-          >
+          <Link to="/dashboard/pending-orders" className="block mb-2">
             Pending Orders
           </Link>
-          <Link
-            className="block py-2 px-3 mt-6 bg-gray-800 rounded hover:bg-gray-700"
-            to="/dashboard/approved-orders"
-          >
+          <Link to="/dashboard/approved-orders" className="block mb-2">
             Approved Orders
-          </Link>
-          <Link
-            className="block py-2 px-3 mt-6 bg-gray-800 rounded hover:bg-gray-700"
-            to="/dashboard/profile"
-          >
-            My Profile
           </Link>
         </>
       )}
 
+      {/* User */}
       {user?.role === "user" && (
         <>
-          <Link
-            to="/dashboard/my-orders"
-            className="block py-2 px-3 mt-6 bg-gray-800 rounded hover:bg-gray-700"
-          >
+          <Link to="/dashboard/my-orders" className="block mb-2">
             My Orders
+          </Link>
+          <Link to="/dashboard/profile" className="block mb-2">
+            My Profile
           </Link>
         </>
       )}

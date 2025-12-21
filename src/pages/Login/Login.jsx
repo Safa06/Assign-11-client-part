@@ -1,65 +1,138 @@
-//
-
 import { useState } from "react";
-import { useNavigate } from "react-router";
-import axios from "axios";
+import { useNavigate, Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import axios from "axios";
 
 const Login = () => {
-  const { login } = useAuth();
+  const { signIn, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("user");
+  const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
 
-    const res = await axios.post("http://localhost:5000/login", {
-      email,
-      password,
-      role,
-    });
+    try {
+      // Firebase login
+      const userCredential = await signIn(email, password);
+      const user = userCredential.user;
 
-    // save in auth context
-    login(res.data);
+      // Verify role from backend
+      const res = await axios.get(
+        `http://localhost:5000/users?email=${user.email}`
+      );
+      const backendUser = res.data[0];
 
-    navigate("/dashboard");
+      if (!backendUser || backendUser.role !== role) {
+        setError("Role mismatch or user not found");
+        return;
+      }
+
+      navigate("/dashboard"); // redirect to dashboard
+    } catch (err) {
+      setError(err.message || "Login failed");
+    }
+  };
+
+  // const handleLogin = async (email, password) => {
+  //   try {
+  //     const userCredential = await signInWithEmailAndPassword(
+  //       auth,
+  //       email,
+  //       password
+  //     );
+  //     const firebaseUser = userCredential.user;
+
+  //     const { data } = await axios.get(
+  //       `http://localhost:5000/users?email=${firebaseUser.email}`
+  //     );
+  //     login(data); // sets user with role
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+  
+  
+  
+  const handleGoogleLogin = async () => {
+    setError("");
+    try {
+      const result = await signInWithGoogle();
+      const user = result.user;
+
+      // Create user in backend if not exists
+      const res = await axios.get(
+        `http://localhost:5000/users?email=${user.email}`
+      );
+      if (res.data.length === 0) {
+        await axios.post("http://localhost:5000/users", {
+          name: user.displayName,
+          email: user.email,
+          role,
+        });
+      } else if (res.data[0].role !== role) {
+        setError("Role mismatch");
+        return;
+      }
+
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message || "Google Sign-In failed");
+    }
   };
 
   return (
-    <form onSubmit={handleLogin} className="max-w-md mx-auto p-6">
-      <h2 className="text-xl font-bold mb-4">Login</h2>
+    <div className="max-w-md mx-auto mt-20 p-6 border rounded">
+      <h2 className="text-2xl font-bold mb-4">Login</h2>
+      <form onSubmit={handleLogin} className="space-y-3">
+        <input
+          type="email"
+          placeholder="Email"
+          className="input w-full"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          className="input w-full"
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <input
-        type="email"
-        placeholder="Email"
-        className="border p-2 w-full mb-3"
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
+        <select
+          className="select w-full"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+        >
+          <option value="user">User</option>
+          <option value="manager">Manager</option>
+          <option value="admin">Admin</option>
+        </select>
 
-      <input
-        type="password"
-        placeholder="Password"
-        className="border p-2 w-full mb-3"
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
+        <button className="btn btn-primary w-full" type="submit">
+          Login
+        </button>
+      </form>
 
-      <select
-        className="border p-2 w-full mb-3"
-        value={role}
-        onChange={(e) => setRole(e.target.value)}
+      <button
+        onClick={handleGoogleLogin}
+        className="btn btn-outline w-full mt-3"
       >
-        <option value="user">User</option>
-        <option value="manager">Manager</option>
-        <option value="admin">Admin</option>
-      </select>
+        Sign in with Google
+      </button>
 
-      <button className="bg-blue-600 text-white w-full py-2">Login</button>
-    </form>
+      {error && <p className="text-red-500 mt-2">{error}</p>}
+
+      <p className="mt-4 text-center">
+        No account?{" "}
+        <Link to="/signup" className="text-blue-500 underline">
+          SignUp
+        </Link>
+      </p>
+     
+    </div>
   );
 };
 

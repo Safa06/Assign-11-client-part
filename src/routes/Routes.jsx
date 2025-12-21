@@ -1,5 +1,4 @@
 import Home from "../pages/Home/Home";
-import ErrorPage from "../pages/ErrorPage";
 import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
 import ProductDetails from "../pages/ProductDetails/ProductDetails"
@@ -24,6 +23,7 @@ import PendingOrders from "../pages/Dashboard/Manager/PendingOrders"
 import ApprovedOrders from "../pages/Dashboard/Manager/ApprovedOrders";
 import TrackOrder from "../pages/Dashboard/Customer/TrackOrder";
 import Profile from "../pages/Dashboard/Common/Profile";
+import ErrorLoading from "../pages/ErrorLoading"
 
 
 //import AddPlant from "../pages/Dashboard/Seller/AddPlant";
@@ -42,7 +42,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-    errorElement: <ErrorPage />,
+    errorElement: <ErrorLoading />,
     children: [
       {
         path: "/",
@@ -136,16 +136,15 @@ export const router = createBrowserRouter([
         ),
       },
 
-      // manager part
 
+
+      // manager part
       {
         path: "add-product",
         element: (
-          <PrivateRoute>
             <ManagerRoute>
               <AddProduct />
             </ManagerRoute>
-          </PrivateRoute>
         ),
       },
       {
