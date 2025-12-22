@@ -11,7 +11,9 @@ const ManageProducts = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:5000/manager-products?email=${user.email}`)
+        .get(
+          `https://assignment11-eight-swart.vercel.app/manager-products?email=${user.email}`
+        )
         .then((res) => setProducts(res.data));
     }
   }, [user]);
@@ -19,9 +21,11 @@ const ManageProducts = () => {
   const handleDelete = (id) => {
     if (!confirm("Delete this product?")) return;
 
-    axios.delete(`http://localhost:5000/products/${id}`).then(() => {
-      setProducts(products.filter((p) => p._id !== id));
-    });
+    axios
+      .delete(`https://assignment11-eight-swart.vercel.app/products/${id}`)
+      .then(() => {
+        setProducts(products.filter((p) => p._id !== id));
+      });
   };
 
   const filtered = products.filter(
@@ -32,7 +36,9 @@ const ManageProducts = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold mb-4 text-green-800">Manage Products</h2>
+      <h2 className="text-3xl font-bold mb-4 text-green-800">
+        Manage Products
+      </h2>
 
       <input
         className="border p-2 mb-4 w-full"

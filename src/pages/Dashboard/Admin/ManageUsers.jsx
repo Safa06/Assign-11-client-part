@@ -5,14 +5,16 @@ const ManageUsers = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/users").then((res) => {
-      setUsers(res.data);
-    });
+    axios
+      .get("https://assignment11-eight-swart.vercel.app/users")
+      .then((res) => {
+        setUsers(res.data);
+      });
   }, []);
 
   const handleRoleChange = (id, newRole) => {
     axios
-      .patch(`http://localhost:5000/users/${id}`, {
+      .patch(`https://assignment11-eight-swart.vercel.app/users/${id}`, {
         role: newRole,
         status: "active",
       })

@@ -19,7 +19,7 @@ const TrackOrder = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/my-orders/${orderId}`)
+      .get(`https://assignment11-eight-swart.vercel.app/my-orders/${orderId}`)
       .then((res) => {
         setOrder(res.data);
         setLoading(false);

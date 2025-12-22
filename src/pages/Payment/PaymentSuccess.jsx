@@ -8,7 +8,7 @@
 // import axios from "axios";
 // import { useState } from "react";
 
-// const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK); 
+// const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
 // const CheckoutForm = ({ price }) => {
 //   const stripe = useStripe();
@@ -23,7 +23,7 @@
 
 //     // 1️⃣ get client secret
 //     const { data } = await axios.post(
-//       "http://localhost:5000/create-payment-intent",
+//       "https://assignment11-eight-swart.vercel.app/create-payment-intent",
 //       {
 //         amount: price * 100,
 //       }

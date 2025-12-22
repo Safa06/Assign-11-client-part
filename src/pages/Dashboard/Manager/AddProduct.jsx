@@ -11,13 +11,10 @@
 
 // export default AddPlant
 
-
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
-
-
 
 const AddProduct = () => {
   const { user } = useAuth();
@@ -38,7 +35,10 @@ const AddProduct = () => {
       createdBy: user.email,
     };
 
-    const res = await axios.post("http://localhost:5000/products", productData);
+    const res = await axios.post(
+      "https://assignment11-eight-swart.vercel.app/products",
+      productData
+    );
 
     if (res.data.success) {
       Swal.fire("Success", "Product added successfully", "success");

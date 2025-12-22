@@ -17,7 +17,7 @@ const ApprovedOrders = () => {
 
   const fetchApprovedOrders = () => {
     axios
-      .get("http://localhost:5000/approved-orders")
+      .get("https://assignment11-eight-swart.vercel.app/approved-orders")
       .then((res) => setOrders(res.data))
       .catch(console.error);
   };
@@ -34,11 +34,14 @@ const ApprovedOrders = () => {
     }
 
     axios
-      .patch(`http://localhost:5000/approved-orders/${orderId}/tracking`, {
-        location,
-        note,
-        status,
-      })
+      .patch(
+        `https://assignment11-eight-swart.vercel.app/approved-orders/${orderId}/tracking`,
+        {
+          location,
+          note,
+          status,
+        }
+      )
       .then(() => {
         Swal.fire("Success", "Tracking info added", "success");
         setTrackingData({ location: "", note: "", status: "", orderId: "" });

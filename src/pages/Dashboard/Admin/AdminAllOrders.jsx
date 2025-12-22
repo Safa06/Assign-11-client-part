@@ -8,49 +8,53 @@ const AdminAllOrders = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:5000/all-orders").then((res) => {
-      setOrders(res.data);
-    });
+    axios
+      .get("https://assignment11-eight-swart.vercel.app/all-orders")
+      .then((res) => {
+        setOrders(res.data);
+      });
   }, []);
 
   const handleView = (orderId) => {
     navigate(`/dashboard/orders/details/${orderId}`);
   };
 
-  
- const handleStatusChange = (orderId, newStatus) => {
-   Swal.fire({
-     title: `Are you sure?`,
-     text: `You want to ${newStatus} this order`,
-     icon: "warning",
-     showCancelButton: true,
-     confirmButtonColor: newStatus === "Approved" ? "#16a34a" : "#dc2626",
-     cancelButtonColor: "#6b7280",
-     confirmButtonText: `Yes, ${newStatus}`,
-   }).then((result) => {
-     if (result.isConfirmed) {
-       axios
-         .patch(`http://localhost:5000/all-orders/${orderId}`, {
-           status: newStatus,
-         })
-         .then(() => {
-           setOrders((prev) =>
-             prev.map((o) =>
-               o._id === orderId ? { ...o, status: newStatus } : o
-             )
-           );
+  const handleStatusChange = (orderId, newStatus) => {
+    Swal.fire({
+      title: `Are you sure?`,
+      text: `You want to ${newStatus} this order`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: newStatus === "Approved" ? "#16a34a" : "#dc2626",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: `Yes, ${newStatus}`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .patch(
+            `https://assignment11-eight-swart.vercel.app/all-orders/${orderId}`,
+            {
+              status: newStatus,
+            }
+          )
+          .then(() => {
+            setOrders((prev) =>
+              prev.map((o) =>
+                o._id === orderId ? { ...o, status: newStatus } : o
+              )
+            );
 
-           Swal.fire({
-             icon: "success",
-             title: "Updated!",
-             text: `Order has been ${newStatus}`,
-             timer: 1500,
-             showConfirmButton: false,
-           });
-         });
-     }
-   });
- };
+            Swal.fire({
+              icon: "success",
+              title: "Updated!",
+              text: `Order has been ${newStatus}`,
+              timer: 1500,
+              showConfirmButton: false,
+            });
+          });
+      }
+    });
+  };
 
   return (
     <div className="p-6">

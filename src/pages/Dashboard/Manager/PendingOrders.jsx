@@ -13,7 +13,7 @@ const PendingOrders = () => {
 
   const fetchPendingOrders = () => {
     axios
-      .get("http://localhost:5000/pending-orders")
+      .get("https://assignment11-eight-swart.vercel.app/pending-orders")
       .then((res) => setOrders(res.data))
       .catch(console.error);
   };
@@ -28,9 +28,12 @@ const PendingOrders = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .patch(`http://localhost:5000/pending-orders/${id}`, {
-            status: "Approved",
-          })
+          .patch(
+            `https://assignment11-eight-swart.vercel.app/pending-orders/${id}`,
+            {
+              status: "Approved",
+            }
+          )
           .then(() => {
             Swal.fire("Approved!", "Order has been approved.", "success");
             fetchPendingOrders();
@@ -50,9 +53,12 @@ const PendingOrders = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .patch(`http://localhost:5000/pending-orders/${id}`, {
-            status: "Rejected",
-          })
+          .patch(
+            `https://assignment11-eight-swart.vercel.app/pending-orders/${id}`,
+            {
+              status: "Rejected",
+            }
+          )
           .then(() => {
             Swal.fire("Rejected!", "Order has been rejected.", "success");
             fetchPendingOrders();

@@ -14,7 +14,9 @@ const MyOrders = () => {
     if (!user?.email) return;
 
     axios
-      .get(`http://localhost:5000/my-orders?email=${user.email}`)
+      .get(
+        `https://assignment11-eight-swart.vercel.app/my-orders?email=${user.email}`
+      )
       .then((res) => {
         setOrders(res.data);
         setLoading(false);
@@ -41,7 +43,9 @@ const MyOrders = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:5000/my-orders/${orderId}`)
+          .delete(
+            `https://assignment11-eight-swart.vercel.app/my-orders/${orderId}`
+          )
           .then(() => {
             setOrders((prev) => prev.filter((o) => o._id !== orderId));
             Swal.fire("Canceled!", "Your order has been canceled.", "success");

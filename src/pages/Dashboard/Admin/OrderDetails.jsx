@@ -9,15 +9,19 @@ const OrderDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/orders/${id}`)
+      .get(`https://assignment11-eight-swart.vercel.app/orders/${id}`)
       .then((res) => {
         setOrder(res.data);
       })
       .catch((err) => console.error(err));
   }, [id]);
 
-  if (!order) return <div><LoadingSpinner>
-  </LoadingSpinner></div>;
+  if (!order)
+    return (
+      <div>
+        <LoadingSpinner></LoadingSpinner>
+      </div>
+    );
 
   return (
     <div className="my-10 mx-10 py-12 bg-blue-200 rounded-2xl text-center">

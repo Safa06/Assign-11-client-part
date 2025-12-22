@@ -2,22 +2,19 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
-import hero from "../../assets/hero-1.png"
-import shirt1 from "../../assets/shirt-1.jpg"
-import shirt2 from "../../assets/shirt-2.jpg"
-import shirt3 from "../../assets/shirt-3.jpg"
+import hero from "../../assets/hero-1.png";
+import shirt1 from "../../assets/shirt-1.jpg";
+import shirt2 from "../../assets/shirt-2.jpg";
+import shirt3 from "../../assets/shirt-3.jpg";
 import { TypeAnimation } from "react-type-animation";
-
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   //const [active, setActive] = useState(0);
 
-
-  
   useEffect(() => {
     axios
-      .get("http://localhost:5000/products")
+      .get("https://assignment11-eight-swart.vercel.app/products")
       .then((res) => setProducts(res.data));
   }, []);
 
@@ -85,9 +82,6 @@ const Home = () => {
         </div>
       </section>
 
-      
-
-      
       {/*OUR PRODUCTS*/}
       <section className="px-4 py-10">
         <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">
@@ -122,8 +116,6 @@ const Home = () => {
           ))}
         </div>
       </section>
-
-
 
       {/*HOW IT WORKS*/}
       <section className="bg-gray-50 py-20">

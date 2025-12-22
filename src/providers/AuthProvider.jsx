@@ -20,9 +20,6 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState(null);
 
-
-
-
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
@@ -50,31 +47,28 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-
   useEffect(() => {
-const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-    setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
 
-    if (currentUser?.email) {
-      try {
-        const res = await fetch(
-          `http://localhost:5000/users?email=${currentUser.email}`
-        );
-        const data = await res.json();
-        setRole(data.role);
-      } catch (err) {
-        console.error("Role fetch failed", err);
+      if (currentUser?.email) {
+        try {
+          const res = await fetch(
+            `https://assignment11-eight-swart.vercel.app/users?email=${currentUser.email}`
+          );
+          const data = await res.json();
+          setRole(data.role);
+        } catch (err) {
+          console.error("Role fetch failed", err);
+          setRole(null);
+        }
+      } else {
         setRole(null);
       }
-    } else {
-      setRole(null);
-    }
-    setLoading(false); 
-  });
-  return () => unsubscribe();
-}, []);
-  
-
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const authInfo = {
     user,
@@ -88,7 +82,6 @@ const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
     updateUserProfile,
     role,
     setRole,
-    
   };
 
   return (
