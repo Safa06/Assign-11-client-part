@@ -44,7 +44,7 @@ const OrderDetails = () => {
         <b>Address:</b> {order.address}
       </p>
 
-      <div>
+      {/* <div>
         <h3 className="text-xl font-semibold mb-2">Tracking History</h3>
         <ul className="border p-4 rounded">
           {order.tracking?.map((t, i) => (
@@ -56,7 +56,7 @@ const OrderDetails = () => {
             </div>
           ))}
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 };

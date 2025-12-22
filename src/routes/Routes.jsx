@@ -12,7 +12,7 @@ import MyOrders from "../pages/Dashboard/Customer/MyOrders";
 import { createBrowserRouter } from "react-router";
 import AllProducts from "../components/Home/AllProductsPage";
 import BookingForm from "../pages/BookingForm/BookingForm";
-import PaymentSuccess from "../pages/Payment/PaymentSuccess";
+//import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import AdminRoute from "./AdminRoute";
 import UpdateProduct from "../pages/Dashboard/Admin/UpdateProduct";
 import OrderDetails from "../pages/Dashboard/Admin/OrderDetails";
@@ -43,10 +43,10 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      {
-        path: "/payment/:id",
-        element: <PaymentSuccess />,
-      },
+      // {
+      //   path: "/payment/:id",
+      //   element: <PaymentSuccess />,
+      // },
     ],
   },
   { path: "/login", element: <Login /> },
@@ -122,12 +122,12 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      {
-        path: "payment",
-        element: <PaymentSuccess>
+      // {
+      //   path: "payment",
+      //   element: <PaymentSuccess>
 
-        </PaymentSuccess>
-      },
+      //   </PaymentSuccess>
+      // },
 
 
       // manager part

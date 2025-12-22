@@ -1,18 +1,3 @@
-
-// import Plants from "../../components/Home/Plants";
-
-// const Home = () => {
-//   return (
-//     <div>
-//       {/* <Plants /> */}
-//       {/* More components */}
-//     </div>
-//   );
-// };
-
-// export default Home;
-
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
@@ -310,4 +295,3 @@ const Home = () => {
 };
 
 export default Home;
-
