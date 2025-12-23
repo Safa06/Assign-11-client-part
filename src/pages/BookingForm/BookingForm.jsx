@@ -55,13 +55,10 @@ const BookingForm = () => {
 
     try {
       const res = await axiosSecure.post("/orders", orderData);
-
-      // ✅ PAYMENT DECISION HERE
       if (product.payment === "Cash on Delivery") {
         Swal.fire("Success", "Order placed successfully", "success");
         navigate("/dashboard/my-orders");
       } else {
-        // Online payment required
         navigate(`/payment/${res.data.insertedId}`);
       }
     } catch (error) {
