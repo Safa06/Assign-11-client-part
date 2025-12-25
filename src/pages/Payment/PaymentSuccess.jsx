@@ -21,7 +21,7 @@
 
 //     setLoading(true);
 
-//     // 1️⃣ get client secret
+//     // 
 //     const { data } = await axios.post(
 //       "https://assignment11-eight-swart.vercel.app/create-payment-intent",
 //       {
@@ -29,7 +29,7 @@
 //       }
 //     );
 
-//     // 2️⃣ confirm payment
+//     // 
 //     const result = await stripe.confirmCardPayment(data.clientSecret, {
 //       payment_method: {
 //         card: elements.getElement(CardElement),

@@ -1,4 +1,3 @@
-// src/pages/Dashboard/Customer/TrackOrder.jsx
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
@@ -7,7 +6,6 @@ const TRACKING_STEPS = [
   "Cutting Completed",
   "Sewing Started",
   "Finishing",
-  "QC Checked",
   "Packed",
   "Shipped / Out for Delivery",
 ];
@@ -63,7 +61,7 @@ const TrackOrder = () => {
           const { done, info } = getStepStatus(step);
           return (
             <div key={index} className="mb-8 relative">
-              {/* Step circle */}
+             
               <span
                 className={`absolute -left-4 w-8 h-8 rounded-full flex items-center justify-center border-2 border-gray-300 ${
                   done

@@ -1,15 +1,4 @@
-// import AddPlantForm from '../../../components/Form/AddPlantForm'
 
-// const AddPlant = () => {
-//   return (
-//     <div>
-//       {/* Form */}
-//       <AddPlantForm />
-//     </div>
-//   )
-// }
-
-// export default AddPlant
 
 import { useForm } from "react-hook-form";
 import axios from "axios";
