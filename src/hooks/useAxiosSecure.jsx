@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const axiosPublic = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: "https://assignment11-eight-swart.vercel.app/"
 });
 
 const useAxiosPublic = () => {
@@ -10,3 +10,4 @@ const useAxiosPublic = () => {
 };
 
 export default useAxiosPublic;
+      
