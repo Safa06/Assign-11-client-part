@@ -27,3 +27,6 @@ dist-ssr
 .env".history" 
 .env 
 .history 
+
+
+.env.local

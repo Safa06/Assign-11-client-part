@@ -2,13 +2,24 @@
 import { Link } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 import logo from "../../../assets/images/logo-hat.jpg";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+  useEffect(() => {
+    const html = document.querySelector("html");
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const handleTheme = (checked) => {
+    setTheme(checked ? "dark" : "light");
+  };
 
   return (
-    
-
     <div className="navbar bg-base-100 shadow">
       <div className="navbar-start p-2">
         <div className="dropdown">
@@ -33,6 +44,8 @@ const Navbar = () => {
             tabIndex="-1"
             className="menu menu-sm dropdown-content bg-green-800 text-white z-1 mt-3 w-52 p-1 shadow"
           >
+           
+            
             <li>
               {/* Links */}
               <Link to="/" className="hover:text-blue-600">
@@ -71,6 +84,16 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-end">
+
+{/* theme toggling */}
+          <input
+            onChange={(e) => handleTheme(e.target.checked)}
+            type="checkbox"
+            defaultChecked={localStorage.getItem("theme") === "dark"}
+            className="toggle mr-3"
+          />
+        
+
         {/* BEFORE LOGIN */}
 
         {!user && (
